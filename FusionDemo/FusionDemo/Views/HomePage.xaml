@@ -70,13 +70,13 @@
 
 
             <Label Text="Requested Amt:" />
-            <Entry Text="{Binding RequestedAmount}"/>
+            <Entry Text="{Binding RequestedAmount}" Keyboard="Numeric"/>
 
             <Label Text="Tip Amt:" />
-            <Entry Text="{Binding TipAmount}"/>
+            <Entry Text="{Binding TipAmount}" Keyboard="Numeric"/>
 
             <Label Text="CashBack Amt:" />
-            <Entry Text="{Binding CashBackAmount}"/>
+            <Entry Text="{Binding CashBackAmount}" Keyboard="Numeric"/>
 
             <Button Text="Purchase" Command="{Binding DoPurchaseCommand}" />
             <Button Text="Refund" Command="{Binding DoRefundCommand}" />
