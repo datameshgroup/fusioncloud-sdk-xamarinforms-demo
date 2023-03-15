@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FusionDemo.Views.PaymentPage"
+             xmlns:vm="clr-namespace:FusionDemo.ViewModels"
+             xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             Title="{Binding DialogCaption}">
+
+    <ContentPage.BindingContext>
+        <vm:PaymentViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="0,10,0,0" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+            <Setter Property="FontSize" Value="Medium"/>
+        </Style>
+
+    </ContentPage.Resources>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+
+        <ContentView Grid.Row="0" Margin="0,20,0,0" Padding="0,40,0,40"  BackgroundColor="{Binding DialogTitleBackgroundColor}" VerticalOptions="FillAndExpand">
+            <Label 
+                Text="{Binding DialogTitle}" 
+                TextColor="{Binding DialogTitleTextColor}" 
+                FontSize="32"
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center"
+                VerticalOptions="Center"
+                />
+        </ContentView>
+
+        <StackLayout Grid.Row="1" Margin="0,20,0,0">
+            <Label 
+                Text="{Binding DialogDisplayLine}" 
+                TextColor="#888888" 
+                FontSize="28"
+                HorizontalTextAlignment="Center"
+                VerticalOptions="Center"
+                FontAttributes="Bold"
+                />
+
+            <Label 
+                Text="{Binding DialogDisplayText}" 
+                TextColor="#888888" 
+                FontSize="22"
+                HorizontalTextAlignment="Center"
+                VerticalOptions="Center"
+                FontAttributes="Bold"
+                />
+            </StackLayout>
+
+
+            <lottie:AnimationView 
+                Grid.Row="2"
+                x:Name="ResultAnimation"
+                Animation="{Binding AnimationName}"
+                AnimationSource="AssetOrBundle"
+                AutoPlay="True" RepeatMode="Restart" RepeatCount="{Binding AnimationRepeatCount}" />
+        
+
+        <StackLayout Grid.Row="3" Padding="16" Orientation="Vertical">
+            <Button Text="OK" IsVisible="{Binding DialogEnableOkButton}" Command="{Binding OkCommand}"/>
+            <Button Text="Cancel" IsVisible="{Binding DialogEnableCancelButton}" Command="{Binding CancelCommand}"/>
+        </StackLayout>
+
+    </Grid>
+
+</ContentPage>

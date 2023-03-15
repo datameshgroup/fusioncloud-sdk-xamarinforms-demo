@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FusionDemo.Views.HomePage"
+             xmlns:vm="clr-namespace:FusionDemo.ViewModels"
+             Title="{Binding Title}"
+             >
+
+    <ContentPage.BindingContext>
+        <vm:HomeViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <Style x:Key="TitleLabel" TargetType="Label">
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="HorizontalTextAlignment" Value="Left" />
+        </Style>
+
+        <Style  x:Key="SubTitleLabel" TargetType="Label">
+            <Setter Property="Margin" Value="0,16,0,8" />
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="FontSize" Value="Large" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+            <Setter Property="HorizontalTextAlignment" Value="Left" />
+        </Style>
+
+
+        <Style TargetType="Label">
+            <Setter Property="TextColor" Value="#888888" />
+            <Setter Property="FontSize" Value="Medium" />
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+            <Setter Property="HorizontalTextAlignment" Value="Left" />
+        </Style>
+
+
+        <Style TargetType="Entry">
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="FontSize" Value="Medium"/>
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+            <Setter Property="HorizontalTextAlignment" Value="Left" />
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="0,10,0,0" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+            <Setter Property="FontSize" Value="Medium"/>
+        </Style>
+
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="icon_cog.png" Text="Search" Command="{Binding NavigateSettingsCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackLayout BackgroundColor="#96d1ff" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+            <ContentView Padding="0,40,0,40" VerticalOptions="FillAndExpand">
+                <Image Source="xamarin_logo.png" VerticalOptions="Center" HeightRequest="64" />
+            </ContentView>
+        </StackLayout>
+        <StackLayout Grid.Row="1" Padding="30,24,30,24" Spacing="10">
+
+
+            <Label Text="Requested Amt:" />
+            <Entry Text="{Binding RequestedAmount}"/>
+
+            <Label Text="Tip Amt:" />
+            <Entry Text="{Binding TipAmount}"/>
+
+            <Label Text="CashBack Amt:" />
+            <Entry Text="{Binding CashBackAmount}"/>
+
+            <Button Text="Purchase" Command="{Binding DoPurchaseCommand}" />
+            <Button Text="Refund" Command="{Binding DoRefundCommand}" />
+        </StackLayout>
+    </Grid>
+
+</ContentPage>

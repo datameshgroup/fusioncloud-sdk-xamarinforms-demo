@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FusionDemo.Views.SettingsPage"
+             xmlns:vm="clr-namespace:FusionDemo.ViewModels"
+             Title="{Binding Title}"
+             >
+
+    <ContentPage.BindingContext>
+        <vm:SettingsViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <Style x:Key="TitleLabel" TargetType="Label">
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="HorizontalTextAlignment" Value="Left" />
+        </Style>
+
+        <Style  x:Key="SubTitleLabel" TargetType="Label">
+            <Setter Property="Margin" Value="0,16,0,8" />
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="FontSize" Value="Large" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+            <Setter Property="HorizontalTextAlignment" Value="Left" />
+        </Style>
+
+
+        <Style TargetType="Label">
+            <Setter Property="TextColor" Value="#888888" />
+            <Setter Property="FontSize" Value="Medium" />
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+            <Setter Property="HorizontalTextAlignment" Value="Left" />
+        </Style>
+
+
+        <Style TargetType="Entry">
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="FontSize" Value="Medium"/>
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+            <Setter Property="HorizontalTextAlignment" Value="Left" />
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="0,10,0,0" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+            <Setter Property="FontSize" Value="Medium"/>
+        </Style>
+
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+
+        <Grid Padding="15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <ScrollView Grid.Row="0">
+                <StackLayout>
+
+                    <Label Text="POS Lane Settings" Style="{StaticResource SubTitleLabel}"/>
+
+                    <Label Text="SaleID:" />
+                    <Entry Text="{Binding SaleID}"/>
+
+                    <Label Text="POIID:" />
+                    <Entry Text="{Binding POIID}"/>
+
+                    <Label Text="KEK:" />
+                    <Entry Text="{Binding KEK}"/>
+
+                    <Label Text="POS Software Settings" Style="{StaticResource SubTitleLabel}"/>
+
+                    <Label Text="ProviderIdentification:" />
+                    <Entry Text="{Binding ProviderIdentification}"/>
+
+                    <Label Text="ApplicationName:" />
+                    <Entry Text="{Binding ApplicationName}"/>
+
+                    <Label Text="CertificationCode:" />
+                    <Entry Text="{Binding CertificationCode}"/>
+
+                    <Label Text="Testing" Style="{StaticResource SubTitleLabel}"/>
+
+                    <Label Text="UAT Environment:" />
+                    <CheckBox IsChecked="{Binding UseTestEnvironment}"/>
+
+                    <Label Text="Custom URL:" />
+                    <Entry Text="{Binding CustomNexoURL}"/>
+
+
+                </StackLayout>
+            </ScrollView>
+
+
+            <Button Grid.Row="1" VerticalOptions="Center" Text="Save" Command="{Binding SaveCommand}"/>
+
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>
