@@ -17,7 +17,7 @@ See the [DataMesh Fusion API](https://datameshgroup.github.io/fusion/overview) f
 Some versions of Android may require an SSL certificate install in order to work with the DataMesh test environment.
 
 * Copy `/certs/Trusted Secure Certificate Authority 5.crt` to your Android device
-  * If running the emulator, from VS run Tools→Android→ADP Command Prompt, then the command `adb push "..\..\certs\rusted Secure Certificate Authority 5.crt"  /storage/emulated/0/Download`
+  * If running the emulator, from VS run Tools→Android→ADP Command Prompt, then the command `adb push "..\..\certs\Trusted Secure Certificate Authority 5.crt"  /storage/emulated/0/Download`
 * Navigate to Settings → Security and privacy → Other security settings
 * Select Install from device storage → CA Certificate → Install anyway
 * Browse to and install `Trusted Secure Certificate Authority 5.crt`
