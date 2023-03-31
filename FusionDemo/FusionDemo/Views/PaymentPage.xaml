@@ -61,7 +61,16 @@
                 VerticalOptions="Center"
                 FontAttributes="Bold"
                 />
-            </StackLayout>
+            
+            <Label 
+                Text="{Binding DialogDisplayAdditionalText}" 
+                TextColor="#FF0000" 
+                FontSize="22"
+                HorizontalTextAlignment="Center"
+                VerticalOptions="Center"
+                FontAttributes="Bold"
+                />
+        </StackLayout>
 
 
             <lottie:AnimationView 

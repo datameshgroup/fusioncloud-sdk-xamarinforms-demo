@@ -23,6 +23,16 @@ namespace FusionDemo.ViewModels
         private MessagePayload currentMessagePayload;
 
         /// <summary>
+        /// Determine if payment amount was paid partially
+        /// </summary>
+        private bool isPartiallyPaid;
+
+        /// <summary>
+        /// Current unpaid payment balance after payment amount was partially paid (isPartiallyPaid = true)
+        /// </summary>
+        private decimal? currentUnpaidBalance;
+
+        /// <summary>
         /// Track the saleToPOIRequest in progress. Used for cancel and error handling.
         /// TODO - can we merge this with currentMessagePayload...
         /// </summary>
@@ -44,6 +54,9 @@ namespace FusionDemo.ViewModels
 
             currentMessagePayload = null;
             currentSaleToPOIRequest = null; // TODO: Need to handle payment in progress after crash
+
+            isPartiallyPaid = false;
+            currentUnpaidBalance = null;            
 
             OkCommand = new Command(OnOkTapped);
             CancelCommand = new Command(OnCancelTapped);
@@ -87,6 +100,56 @@ namespace FusionDemo.ViewModels
 
         public async override Task OnNavigatedTo()
         {
+            currentUnpaidBalance = null;
+            isPartiallyPaid = false;            
+
+            PaymentRequest paymentRequest = this.Settings.Payment.Request;
+
+            bool processPayment = false;
+            if (paymentRequest?.PaymentTransaction?.AmountsReq?.RequestedAmount != null)
+            {
+                currentUnpaidBalance = (decimal)paymentRequest?.PaymentTransaction?.AmountsReq?.RequestedAmount;
+                processPayment = currentUnpaidBalance > 0;
+            }
+
+            decimal actualAmountPaid = 0;
+            decimal? nextPaymentAmount;
+            decimal? partialAuthorizedAmount;
+            while (processPayment)
+            {
+                processPayment = false;
+                // Send payment request
+                PaymentResponse paymentResponse = await ProcessPayment(paymentRequest);
+
+                //Check response if purchase amount has been paid in full.  If not, verify the amounts
+                nextPaymentAmount = CalcuteUnpaidAmount(paymentResponse, out partialAuthorizedAmount);
+
+                //check if payment was fully or partially paid
+                isPartiallyPaid = (nextPaymentAmount != null) && (nextPaymentAmount > 0);
+                
+                //if payment was partially paid, initiate another payment for the remaining amount
+                if (isPartiallyPaid)
+                {                                             
+                    //need to send another payment amount to handle the balance
+                    processPayment = true;
+
+                    //total amount already paid
+                    actualAmountPaid += (decimal) partialAuthorizedAmount;
+                    paymentRequest.PaymentTransaction.AmountsReq.PaidAmount = actualAmountPaid;
+
+                    //update the RequestedAmount with the remaining unpaid amount
+                    paymentRequest.PaymentTransaction.AmountsReq.RequestedAmount = currentUnpaidBalance = (decimal)nextPaymentAmount;                    
+                }                
+            }
+        }
+
+        /// <summary>
+        /// Processeses the actual payment
+        /// </summary>
+        /// <param name="paymentRequest"></param>
+        /// <returns></returns>
+        private async Task<PaymentResponse> ProcessPayment(PaymentRequest paymentRequest)
+        {            
             // Reset UI
             DialogCaption = "";
             DialogDisplayLine = "";
@@ -100,7 +163,7 @@ namespace FusionDemo.ViewModels
             DialogEnableCancelButton = false;
 
             // Send payment request 
-            await SendPaymentRequest(fusionClient: this.Settings.FusionClient, paymentRequest: this.Settings.Payment.Request);
+            return await SendPaymentRequest(fusionClient: this.Settings.FusionClient, paymentRequest);            
         }
 
         /// <summary>
@@ -112,6 +175,8 @@ namespace FusionDemo.ViewModels
         {
             int transactionProcessingTimeoutMSecs = 330000;
             int transactionResponseTimeoutMSecs = 60000;
+
+            //this is unique to every payment request
             string serviceId = Guid.NewGuid().ToString();
 
 
@@ -161,8 +226,6 @@ namespace FusionDemo.ViewModels
                     }
                 }
                 while (waitingForResponse);
-
-
             }
             catch (FusionException fe)
             {
@@ -321,7 +384,6 @@ namespace FusionDemo.ViewModels
             return paymentResponse;
         }
 
-
         /// <summary>
         /// Function which is triggered on send/recv of Fusion message payload (both real and simulated). 
         /// Only really used to remove custom UI logic from SendPaymentRequest and PerformErrorRecovery
@@ -356,6 +418,7 @@ namespace FusionDemo.ViewModels
                             paymentDialogResponse.PaymentResultTitle,
                             paymentDialogResponse.ErrorTitle,
                             paymentDialogResponse.ErrorText,
+                            GetAdditionalText(paymentDialogResponse.Success),
                             paymentDialogResponse.Success ? DialogType.Success : DialogType.Error,
                             true,
                             false);
@@ -426,13 +489,13 @@ namespace FusionDemo.ViewModels
                             paymentDialogResponse.PaymentResultTitle,
                             paymentDialogResponse.ErrorTitle,
                             paymentDialogResponse.ErrorText,
+                            GetAdditionalText(paymentDialogResponse.Success),
                             paymentDialogResponse.Success ? DialogType.Success : DialogType.Error,
                             true,
                             false);
 
                     SetAutoHideTimer(paymentDialogResponse.Success ? paymentDialogOnSuccessTimeoutMSecs : paymentDialogOnFailureTimeoutMSecs);
-
-
+                    
                     break;
                 case DisplayRequest r:
                     ShowPaymentDialog(paymentType, "PAYMENT IN PROGRESS", r.GetCashierDisplayAsPlainText()?.ToUpper(System.Globalization.CultureInfo.InvariantCulture), "", DialogType.Normal, false, true);
@@ -440,7 +503,48 @@ namespace FusionDemo.ViewModels
             }
         }
 
+        private decimal? CalcuteUnpaidAmount(PaymentResponse paymentResponse, out decimal? partialAuthorizedAmount)
+        {
+            decimal? paymentBalance = 0;
+            partialAuthorizedAmount = null;
+            if ((paymentResponse?.PaymentResult?.PaymentType == PaymentType.Normal) && (paymentResponse?.Response != null))
+            {                
+                Response response = paymentResponse.Response;
+                //check if payment was successful or not
+                if (response.Result != Result.Success) {
 
+                    paymentBalance = null;
+                    //check if payment was partially paid
+                    if (response?.Result == Result.Partial)
+                    {
+                        partialAuthorizedAmount = paymentResponse?.PaymentResult?.AmountsResp?.PartialAuthorizedAmount;
+                        decimal? requestedAmount = paymentResponse?.PaymentResult?.AmountsResp?.RequestedAmount;
+                        if ((partialAuthorizedAmount != null) && (requestedAmount != null) && (partialAuthorizedAmount < requestedAmount))
+                        {
+                            //get the unpaid balance
+                            paymentBalance = requestedAmount - partialAuthorizedAmount;
+                        }
+                    }
+                }
+            }           
+            return paymentBalance;
+        }
+
+        private String GetAdditionalText(bool isPaymentSuccessful)
+        {
+            String additionalText = string.Empty;
+            if (!isPaymentSuccessful && isPartiallyPaid)
+            {
+                //used to display unpaid amount in the screen
+                additionalText = "Unpaid Balance = $" + currentUnpaidBalance;
+
+                //reset values so they don't get processed again.
+                currentUnpaidBalance = null;
+                isPartiallyPaid = false;
+            }
+
+            return additionalText;
+        }
 
         #region PaymentDialogUI
 
@@ -470,6 +574,11 @@ namespace FusionDemo.ViewModels
         public enum DialogType { Normal, Success, Error };
 
         private void ShowPaymentDialog(string caption, string title, string displayLine1, string displayText, DialogType dialogType, bool enableOk, bool enableCancel)
+        {
+            ShowPaymentDialog(caption, title, displayLine1, displayText, string.Empty, dialogType, enableOk, enableCancel);
+        }
+
+        private void ShowPaymentDialog(string caption, string title, string displayLine1, string displayText, string displayAddtionalText, DialogType dialogType, bool enableOk, bool enableCancel)
         {
             // Set caption
             DialogCaption = caption;
@@ -510,13 +619,11 @@ namespace FusionDemo.ViewModels
 
             DialogDisplayLine = displayLine1;
             DialogDisplayText = displayText;
+            DialogDisplayAdditionalText = displayAddtionalText;
 
             DialogEnableOkButton = enableOk;
             DialogEnableCancelButton = enableCancel;
         }
-
-
-
 
         #region Properties
         private string dialogCaption;
@@ -578,6 +685,16 @@ namespace FusionDemo.ViewModels
             set
             {
                 SetProperty(ref dialogDisplayText, value);
+            }
+        }
+
+        private string dialogDisplayAdditionalText;
+        public string DialogDisplayAdditionalText
+        {
+            get => dialogDisplayAdditionalText;
+            set
+            {
+                SetProperty(ref dialogDisplayAdditionalText, value);
             }
         }
 

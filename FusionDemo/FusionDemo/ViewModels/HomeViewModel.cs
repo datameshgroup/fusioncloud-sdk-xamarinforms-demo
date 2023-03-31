@@ -63,6 +63,11 @@ namespace FusionDemo.ViewModels
                subCategory: "sides"
                );
 
+            if(!String.IsNullOrEmpty(ProductCode))
+            {
+                paymentRequest.AddSaleItem(productCode: ProductCode, productLabel: ProductCode, itemAmount: 0);
+            }
+
             return paymentRequest;
         }
 
@@ -119,6 +124,13 @@ namespace FusionDemo.ViewModels
         {
             get { return cashBackAmount; }
             set { SetProperty(ref cashBackAmount, value); }
+        }
+
+        String productCode = null;
+        public String ProductCode
+        {
+            get { return productCode; }
+            set { SetProperty(ref productCode, value); }
         }
 
         #endregion

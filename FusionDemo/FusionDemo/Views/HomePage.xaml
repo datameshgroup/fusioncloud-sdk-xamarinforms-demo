@@ -78,6 +78,9 @@
             <Label Text="CashBack Amt:" />
             <Entry Text="{Binding CashBackAmount}" Keyboard="Numeric"/>
 
+            <Label Text="Product Code:" />
+            <Entry Text="{Binding ProductCode}" Keyboard="Text"/>
+
             <Button Text="Purchase" Command="{Binding DoPurchaseCommand}" />
             <Button Text="Refund" Command="{Binding DoRefundCommand}" />
         </StackLayout>
