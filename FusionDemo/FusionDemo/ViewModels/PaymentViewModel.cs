@@ -138,7 +138,10 @@ namespace FusionDemo.ViewModels
                     paymentRequest.PaymentTransaction.AmountsReq.PaidAmount = actualAmountPaid;
 
                     //update the RequestedAmount with the remaining unpaid amount
-                    paymentRequest.PaymentTransaction.AmountsReq.RequestedAmount = currentUnpaidBalance = (decimal)nextPaymentAmount;                    
+                    paymentRequest.PaymentTransaction.AmountsReq.RequestedAmount = currentUnpaidBalance = (decimal)nextPaymentAmount;
+
+                    paymentRequest.PaymentTransaction.AmountsReq.MinimumSplitAmount = 0;
+                    paymentRequest.PaymentData.SplitPaymentFlag = true;
                 }                
             }
         }
