@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using DataMeshGroup.Fusion.Model;
 using System.Dynamic;
 using FusionDemo.Views;
+using DataMeshGroup.Fusion.Model.Transit;
 
 namespace FusionDemo.ViewModels
 {
@@ -29,44 +30,116 @@ namespace FusionDemo.ViewModels
         private PaymentRequest CreatePaymentRequest()
         {
             // Construct payment request
-            PaymentRequest paymentRequest = new PaymentRequest(
-                transactionID: Guid.NewGuid().ToString(),
-                requestedAmount: RequestedAmount,
-                paymentType: PaymentType);
-
-            paymentRequest.PaymentTransaction.AmountsReq.TipAmount = TipAmount;
-            paymentRequest.PaymentTransaction.AmountsReq.CashBackAmount = CashBackAmount;
-
-            // Create sale item
-            SaleItem parentItem = paymentRequest.AddSaleItem(
-                productCode: "XXVH776",
-                productLabel: "Big Kahuna Burger",
-                itemAmount: RequestedAmount,
-                category: "food",
-                subCategory: "mains"
-                );
-            // Sale item modifiers
-            paymentRequest.AddSaleItem(
-                    productCode: "XXVH776-0",
-                    productLabel: "Extra pineapple",
-                    parentItemID: parentItem.ItemID,
-                   itemAmount: 0,
-                   category: "food",
-                   subCategory: "mains"
-                   );
-            paymentRequest.AddSaleItem(
-                productCode: "XXVH776-1",
-               productLabel: "Side of fries",
-               parentItemID: parentItem.ItemID,
-               itemAmount: 0,
-               category: "food",
-               subCategory: "sides"
-               );
+            PaymentRequest paymentRequest = new PaymentRequest()
+            {
+                PaymentData = new PaymentData()
+                {
+                    PaymentType = paymentType
+                },
+                SaleData = new SaleData()
+                {
+                    OperatorID = "4452",
+                    ShiftNumber = "2023-04-06_01",
+                    SaleTransactionID = new TransactionIdentification()
+                    {
+                        TransactionID = "0347d00e-5d13-4043-b92b-6bf32381ab16",
+                        TimeStamp = DateTime.UtcNow
+                    },
+                    SaleTerminalData = new SaleTerminalData(false)
+                    {
+                        DeviceID = "58df5074-0f6d-41be-9b4f-bf3de3197ddd"
+                    },
+                    SponsoredMerchant = new SponsoredMerchant()
+                    {
+                        BusinessID = "50110219460",
+                        RegisteredIdentifier = "TestClient",
+                        SiteID = "719428ed-8c98-4a1a-8b4f-853bbaa0a154"
+                    }
+                },
+                PaymentTransaction = new PaymentTransaction()
+                {
+                    AmountsReq = new AmountsReq()
+                    {
+                        Currency = CurrencySymbol.AUD,
+                        RequestedAmount = requestedAmount,
+                        TipAmount = tipAmount,
+                        CashBackAmount = cashBackAmount
+                    },
+                    SaleItem = new List<SaleItem>()
+                    {
+                        new SaleItem()
+                        {
+                            ItemID = 0,
+                            ProductCode = "MeteredFare",
+                            ProductLabel = "TRF 1 SINGLE",
+                            UnitOfMeasure = UnitOfMeasure.Kilometre,
+                            UnitPrice = 2M,
+                            Quantity = 8M,
+                            ItemAmount = requestedAmount / 2
+                        },
+                        new SaleItem()
+                        {
+                            ItemID = 1,
+                            ProductCode = "NSWGovLevy",
+                            ProductLabel = "NSW GOV LEVY",
+                            UnitOfMeasure = UnitOfMeasure.Other,
+                            UnitPrice = 8M,
+                            Quantity = 1M,
+                            ItemAmount = requestedAmount / 4,
+                            Tags = new List<string>()
+                            {
+                                "subtotal"
+                            }
+                        },
+                        new SaleItem()
+                        {
+                            ItemID = 2,
+                            ProductCode = "LateNightFee",
+                            ProductLabel = "Late Night Fee",
+                            UnitOfMeasure = UnitOfMeasure.Other,
+                            UnitPrice = 2.1M,
+                            Quantity = 1M,
+                            ItemAmount = requestedAmount / 4,
+                            Tags = new List<string>()
+                            {
+                                "extra"
+                            }
+                        }
+                    }
+                },
+                ExtensionData = new ExtensionData()
+                {
+                    TransitData = new TransitData()
+                    {
+                        IsWheelchairEnabled = true,
+                        Trip = new Trip()
+                        {
+                            TotalDistanceTravelled = 29.4M,
+                            Pickup = new Stop()
+                            {
+                                StopIndex = 0,
+                                StopName = "Richmond",
+                                Latitude = "-37.82274517047244",
+                                Longitude = "144.98394642094434",
+                                Timestamp = DateTime.Parse("2023-04-06T03:00:15+0000")
+                            },
+                            Destination = new Stop()
+                            {
+                                StopIndex = 1,
+                                StopName = "Beaumaris",
+                                Latitude = "-37.988864997462048",
+                                Longitude = "145.04484379736329",
+                                Timestamp = DateTime.Parse("2023-04-06T03:39:30+0000")
+                            }
+                        }
+                    }
+                }
+            };           
 
             if(!String.IsNullOrEmpty(ProductCode))
             {
                 paymentRequest.AddSaleItem(productCode: ProductCode, productLabel: ProductCode, itemAmount: 0);
-            }
+            }            
 
             return paymentRequest;
         }
