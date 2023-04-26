@@ -177,299 +177,7 @@ namespace FusionDemo.Models
             {
                 Application.Current.Properties[nameof(DisplayOtherFields)] = value;
             }
-        }
-
-        #region Payment Fields
-
-        public string OperatorID
-        {
-            get
-            {
-                if (Application.Current.Properties.TryGetValue(nameof(OperatorID), out object value))
-                {
-                    return (string)value;
-                }
-                return "4452";
-            }
-            set
-            {
-                Application.Current.Properties[nameof(OperatorID)] = value;
-            }
-        }
-
-        public string ShiftNumber
-        {
-            get
-            {
-                if (Application.Current.Properties.TryGetValue(nameof(ShiftNumber), out object value))
-                {
-                    return (string)value;
-                }
-                return "2023-04-06_01";
-            }
-            set
-            {
-                Application.Current.Properties[nameof(ShiftNumber)] = value;
-            }
-        }
-
-        public string TransactionID
-        {
-            get
-            {
-                if (Application.Current.Properties.TryGetValue(nameof(TransactionID), out object value))
-                {
-                    return (string)value;
-                }
-                return "0347d00e-5d13-4043-b92b-6bf32381ab16";
-            }
-            set
-            {
-                Application.Current.Properties[nameof(TransactionID)] = value;
-            }
-        }
-
-        public string SaleTransactionTimeStamp
-        {
-            get
-            {
-                if (Application.Current.Properties.TryGetValue(nameof(SaleTransactionTimeStamp), out object value))
-                {
-                    return (string)value;
-                }
-                return DateTime.Now.ToString();
-            }
-            set
-            {
-                Application.Current.Properties[nameof(SaleTransactionTimeStamp)] = value;
-            }
-        }
-
-        public String DeviceID
-        {
-            get
-            {
-                if (Application.Current.Properties.TryGetValue(nameof(DeviceID), out object value))
-                {
-                    return (string)value;
-                }
-                return "58df5074-0f6d-41be-9b4f-bf3de3197ddd";
-            }
-            set
-            {
-                Application.Current.Properties[nameof(DeviceID)] = value;
-            }
-        }
-
-        public String BusinessID
-        {
-            get
-            {
-                if (Application.Current.Properties.TryGetValue(nameof(BusinessID), out object value))
-                {
-                    return (string)value;
-                }
-                return "50110219460";
-            }
-            set
-            {
-                Application.Current.Properties[nameof(BusinessID)] = value;
-            }
-        }
-
-        public String RegisteredIdentifier
-        {
-            get
-            {
-                if (Application.Current.Properties.TryGetValue(nameof(RegisteredIdentifier), out object value))
-                {
-                    return (string)value;
-                }
-                return "TestClient";
-            }
-            set
-            {
-                Application.Current.Properties[nameof(RegisteredIdentifier)] = value;
-            }
-        }
-
-        public String SiteID
-        {
-            get
-            {
-                if (Application.Current.Properties.TryGetValue(nameof(SiteID), out object value))
-                {
-                    return (string)value;
-                }
-                return "719428ed-8c98-4a1a-8b4f-853bbaa0a154";
-            }
-            set
-            {
-                Application.Current.Properties[nameof(SiteID)] = value;
-            }
-        }
-
-        public bool IsWheelchairEnabled
-        {
-            get
-            {
-                if (Application.Current.Properties.TryGetValue(nameof(IsWheelchairEnabled), out object value))
-                {
-                    return (bool)value;
-                }
-                return true;
-            }
-            set
-            {
-                Application.Current.Properties[nameof(IsWheelchairEnabled)] = value;
-            }
-        }
-        public decimal TotalDistanceTravelled
-        {
-            get
-            {
-                if (Application.Current.Properties.TryGetValue(nameof(TotalDistanceTravelled), out object value))
-                {
-                    return (decimal)value;
-                }
-                return 29.4M;
-            }
-            set
-            {
-                Application.Current.Properties[nameof(TotalDistanceTravelled)] = value;
-            }
-        }
-
-        public String PickUpStopName
-        {
-            get
-            {
-                if (Application.Current.Properties.TryGetValue(nameof(PickUpStopName), out object value))
-                {
-                    return (string)value;
-                }
-                return "Richmond";
-            }
-            set
-            {
-                Application.Current.Properties[nameof(PickUpStopName)] = value;
-            }
-        }
-
-        public String PickUpLatitude
-        {
-            get
-            {
-                if (Application.Current.Properties.TryGetValue(nameof(PickUpLatitude), out object value))
-                {
-                    return (string)value;
-                }
-                return "-37.82274517047244";
-            }
-            set
-            {
-                Application.Current.Properties[nameof(PickUpLatitude)] = value;
-            }
-        }
-
-        public String PickUpLongitude
-        {
-            get
-            {
-                if (Application.Current.Properties.TryGetValue(nameof(PickUpLongitude), out object value))
-                {
-                    return (string)value;
-                }
-                return "144.98394642094434";
-            }
-            set
-            {
-                Application.Current.Properties[nameof(PickUpLongitude)] = value;
-            }
-        }
-
-        public String PickUpTimeStamp
-        {
-            get
-            {
-                if (Application.Current.Properties.TryGetValue(nameof(PickUpTimeStamp), out object value))
-                {
-                    return (string)value;
-                }
-                return "2023-04-06T03:00:15+0000";
-            }
-            set
-            {
-                Application.Current.Properties[nameof(PickUpTimeStamp)] = value;
-            }
-        }
-
-        public String DestinationStopName
-        {
-            get
-            {
-                if (Application.Current.Properties.TryGetValue(nameof(DestinationStopName), out object value))
-                {
-                    return (string)value;
-                }
-                return "Beaumaris";
-            }
-            set
-            {
-                Application.Current.Properties[nameof(DestinationStopName)] = value;
-            }
-        }
-
-        public String DestinationLatitude
-        {
-            get
-            {
-                if (Application.Current.Properties.TryGetValue(nameof(DestinationLatitude), out object value))
-                {
-                    return (string)value;
-                }
-                return "-37.988864997462048";
-            }
-            set
-            {
-                Application.Current.Properties[nameof(DestinationLatitude)] = value;
-            }
-        }
-
-        public String DestinationLongitude
-        {
-            get
-            {
-                if (Application.Current.Properties.TryGetValue(nameof(DestinationLongitude), out object value))
-                {
-                    return (string)value;
-                }
-                return "145.04484379736329";
-            }
-            set
-            {
-                Application.Current.Properties[nameof(DestinationLongitude)] = value;
-            }
-        }
-
-        public String DestinationTimeStamp
-        {
-            get
-            {
-                if (Application.Current.Properties.TryGetValue(nameof(DestinationTimeStamp), out object value))
-                {
-                    return (string)value;
-                }
-                return "2023-04-06T03:39:30+0000";
-            }
-            set
-            {
-                Application.Current.Properties[nameof(DestinationTimeStamp)] = value;
-            }
-        }
-
-
-        #endregion
+        }        
 
 
         private void FusionClient_OnLog(object sender, LogEventArgs e)
@@ -524,6 +232,12 @@ namespace FusionDemo.Models
             Payment.Request = CreatePaymentRequest();
         }
 
+        public void CreatePayment(PaymentRequest request)
+        {
+            Payment = new Payment();
+            Payment.Request = request;
+        }
+
         // Shared Payment instance
         public Payment Payment { get; private set; }
 
@@ -532,55 +246,54 @@ namespace FusionDemo.Models
             // Construct payment request
             PaymentRequest paymentRequest = new PaymentRequest()
             {
-               
                 SaleData = new SaleData()
                 {
-                    OperatorID = this.OperatorID,
-                    ShiftNumber = this.ShiftNumber,
+                    OperatorID = "4452",
+                    ShiftNumber = "2023-04-06_01",
                     SaleTransactionID = new TransactionIdentification()
                     {
-                        TransactionID = this.TransactionID,
-                        TimeStamp = DateTime.Parse(this.SaleTransactionTimeStamp)
+                        TransactionID = "0347d00e-5d13-4043-b92b-6bf32381ab16",
+                        TimeStamp = DateTime.UtcNow
                     },
                     SaleTerminalData = new SaleTerminalData(false)
                     {
-                        DeviceID = this.DeviceID
+                        DeviceID = "58df5074-0f6d-41be-9b4f-bf3de3197ddd"
                     },
                     SponsoredMerchant = new SponsoredMerchant()
                     {
-                        BusinessID = this.BusinessID,
-                        RegisteredIdentifier = this.RegisteredIdentifier,
-                        SiteID = this.SiteID
+                        BusinessID = "50110219460",
+                        RegisteredIdentifier = "TestClient",
+                        SiteID = "719428ed-8c98-4a1a-8b4f-853bbaa0a154"
                     }
                 },                
                 ExtensionData = new ExtensionData()
                 {
                     TransitData = new TransitData()
                     {
-                        IsWheelchairEnabled = this.IsWheelchairEnabled,
+                        IsWheelchairEnabled = true,
                         Trip = new Trip()
                         {
-                            TotalDistanceTravelled = this.TotalDistanceTravelled,
+                            TotalDistanceTravelled = 29.4M,
                             Pickup = new Stop()
                             {
                                 StopIndex = 0,
-                                StopName = this.PickUpStopName,
-                                Latitude = this.PickUpLatitude,
-                                Longitude = this.PickUpLongitude,
-                                Timestamp = DateTime.Parse(this.PickUpTimeStamp)
+                                StopName = "Richmond",
+                                Latitude = "-37.82274517047244",
+                                Longitude = "144.98394642094434",
+                                Timestamp = DateTime.Parse("2023-04-06T03:00:15+0000")
                             },
                             Destination = new Stop()
                             {
                                 StopIndex = 1,
-                                StopName = this.DestinationStopName,
-                                Latitude = this.DestinationLatitude,
-                                Longitude = this.DestinationLongitude,
-                                Timestamp = DateTime.Parse(this.DestinationTimeStamp)
+                                StopName = "Beaumaris",
+                                Latitude = "-37.988864997462048",
+                                Longitude = "145.04484379736329",
+                                Timestamp = DateTime.Parse("2023-04-06T03:39:30+0000")
                             }
                         }
                     }
                 }
-            };           
+            };
 
             return paymentRequest;
         }

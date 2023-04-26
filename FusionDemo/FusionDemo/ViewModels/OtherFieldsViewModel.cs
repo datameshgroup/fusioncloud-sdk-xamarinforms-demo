@@ -1,4 +1,6 @@
-﻿using FusionDemo.Models;
+﻿using DataMeshGroup.Fusion.Model.Transit;
+using DataMeshGroup.Fusion.Model;
+using FusionDemo.Models;
 using FusionDemo.Views;
 using System;
 using System.Collections.Generic;
@@ -22,7 +24,7 @@ namespace FusionDemo.ViewModels
         private async void OnSaveClicked(object obj)
         {
             // Need to recreate the Payment if payment settings have changed
-            Settings.CreatePayment();
+            Settings.CreatePayment(CreatePaymentRequest());
 
             // Navigate 
             await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
@@ -33,200 +35,265 @@ namespace FusionDemo.ViewModels
             return Task.CompletedTask;
         }
 
+        private PaymentRequest CreatePaymentRequest()
+        {
+            // Construct payment request
+            PaymentRequest paymentRequest = new PaymentRequest()
+            {
+                SaleData = new SaleData()
+                {
+                    OperatorID = this.OperatorID,
+                    ShiftNumber = this.ShiftNumber,
+                    SaleTransactionID = new TransactionIdentification()
+                    {
+                        TransactionID = this.TransactionID,
+                        TimeStamp = DateTime.Parse(this.SaleTransactionTimeStamp)
+                    },
+                    SaleTerminalData = new SaleTerminalData(false)
+                    {
+                        DeviceID = this.DeviceID
+                    },
+                    SponsoredMerchant = new SponsoredMerchant()
+                    {
+                        BusinessID = this.BusinessID,
+                        RegisteredIdentifier = this.RegisteredIdentifier,
+                        SiteID = this.SiteID
+                    }
+                },
+                ExtensionData = new ExtensionData()
+                {
+                    TransitData = new TransitData()
+                    {
+                        IsWheelchairEnabled = this.IsWheelchairEnabled,
+                        Trip = new Trip()
+                        {
+                            TotalDistanceTravelled = this.TotalDistanceTravelled,
+                            Pickup = new Stop()
+                            {
+                                StopIndex = 0,
+                                StopName = this.PickUpStopName,
+                                Latitude = this.PickUpLatitude,
+                                Longitude = this.PickUpLongitude,
+                                Timestamp = DateTime.Parse(this.PickUpTimeStamp)
+                            },
+                            Destination = new Stop()
+                            {
+                                StopIndex = 1,
+                                StopName = this.DestinationStopName,
+                                Latitude = this.DestinationLatitude,
+                                Longitude = this.DestinationLongitude,
+                                Timestamp = DateTime.Parse(this.DestinationTimeStamp)
+                            }
+                        }
+                    }
+                }
+            };
+
+            return paymentRequest;
+        }
+
         #region Properties
 
+        string operatorID = "4452";
         public string OperatorID
         {
-            get => Settings.OperatorID;
+            get => operatorID;
             set
             {
-                Settings.OperatorID = value;
+                operatorID = value;
                 OnPropertyChanged(nameof(OperatorID));
             }
         }
 
+        string shiftNumber = "2023-04-06_01";
         public string ShiftNumber
         {
-            get => Settings.ShiftNumber;
+            get => shiftNumber;
             set
             {
-                Settings.ShiftNumber = value;
+                shiftNumber = value;
                 OnPropertyChanged(nameof(ShiftNumber));
             }
         }
 
+        string transactionID = "0347d00e-5d13-4043-b92b-6bf32381ab16";
         public string TransactionID
         {
-            get => Settings.TransactionID;
+            get => transactionID;
             set
             {
-                Settings.TransactionID = value;
+                transactionID = value;
                 OnPropertyChanged(nameof(TransactionID));
             }
         }
 
+        string saleTransactionTimeStamp = DateTime.Now.ToString();
         public string SaleTransactionTimeStamp
         {
-            get => Settings.SaleTransactionTimeStamp;
+            get => saleTransactionTimeStamp;
             set
             {
                 if (DateTime.TryParse(value, out var date))
                 {
-                    Settings.SaleTransactionTimeStamp = value;
+                    saleTransactionTimeStamp = value;
                     OnPropertyChanged(nameof(SaleTransactionTimeStamp));
                 }                
             }
         }
 
-        public String DeviceID
+        string deviceID = "58df5074-0f6d-41be-9b4f-bf3de3197ddd";
+        public string DeviceID
         {
-            get => Settings.DeviceID;
+            get => deviceID;
             set
             {
-                Settings.DeviceID = value;
+                deviceID = value;
                 OnPropertyChanged(nameof(DeviceID));
             }
         }
 
-        public String BusinessID
+        string businessID = "50110219460";
+        public string BusinessID
         {
-            get => Settings.BusinessID;
+            get => businessID;
             set
             {
-                Settings.BusinessID = value;
+                businessID = value;
                 OnPropertyChanged(nameof(BusinessID));
             }
         }
 
-        public String RegisteredIdentifier
+        string registeredIdentifier = "TestClient";
+        public string RegisteredIdentifier
         {
-            get => Settings.RegisteredIdentifier;
+            get => registeredIdentifier;
             set
             {
-                Settings.RegisteredIdentifier = value;
+                registeredIdentifier = value;
                 OnPropertyChanged(nameof(RegisteredIdentifier));
             }
         }
 
-        public String SiteID
+        string siteID = "719428ed-8c98-4a1a-8b4f-853bbaa0a154";
+        public string SiteID
         {
-            get => Settings.SiteID;
+            get => siteID;
             set
             {
-                Settings.SiteID = value;
+                siteID = value;
                 OnPropertyChanged(nameof(SiteID));
             }
         }
 
+        bool isWheelchairEnabled = true;
         public bool IsWheelchairEnabled
         {
-            get => Settings.IsWheelchairEnabled;
+            get => isWheelchairEnabled;
             set
             {
-                Settings.IsWheelchairEnabled = value;
+                isWheelchairEnabled = value;
                 OnPropertyChanged(nameof(IsWheelchairEnabled));
             }
         }
 
+        decimal totalDistanceTravelled = 29.4M;
         public decimal TotalDistanceTravelled
         {
-            get => Settings.TotalDistanceTravelled;
+            get => totalDistanceTravelled;
             set
             {
-                Settings.TotalDistanceTravelled = value;
+                totalDistanceTravelled = value;
                 OnPropertyChanged(nameof(TotalDistanceTravelled));
             }
         }
 
-        public String PickUpStopName
+        string pickUpStopName = "Richmond";
+        public string PickUpStopName
         {
-            get => Settings.PickUpStopName;
+            get => pickUpStopName;
             set
             {
-                Settings.PickUpStopName = value;
+                pickUpStopName = value;
                 OnPropertyChanged(nameof(PickUpStopName));
             }
         }
 
-        public String PickUpLatitude
+        string pickUpLatitude = "-37.82274517047244";
+        public string PickUpLatitude
         {
-            get => Settings.PickUpLatitude;
+            get => pickUpLatitude;
             set
             {
-                Settings.PickUpLatitude = value;
+                pickUpLatitude = value;
                 OnPropertyChanged(nameof(PickUpLatitude));
             }
         }
 
-        public String PickUpLongitude
+        string pickUpLongitude = "144.98394642094434";
+        public string PickUpLongitude
         {
-            get => Settings.PickUpLongitude;
+            get => pickUpLongitude;
             set
             {
-                Settings.PickUpLongitude = value;
+               pickUpLongitude = value;
                 OnPropertyChanged(nameof(PickUpLongitude));
             }
         }
 
-        public String PickUpTimeStamp
+        string pickUpTimeStamp = "2023-04-06T03:00:15+0000";
+        public string PickUpTimeStamp
         {
-            get => Settings.PickUpTimeStamp;
+            get => pickUpTimeStamp;
             set
             {
-                Settings.PickUpTimeStamp = value;
+                pickUpTimeStamp = value;
                 OnPropertyChanged(nameof(PickUpTimeStamp));
             }
         }
 
-        public String DestinationStopName
+        string destinationStopName = "Beaumaris";
+        public string DestinationStopName
         {
-            get => Settings.DestinationStopName;
+            get => destinationStopName;
             set
             {
-                Settings.DestinationStopName = value;
+                destinationStopName = value;
                 OnPropertyChanged(nameof(DestinationStopName));
             }
         }
 
-        public String DestinationLatitude
+        string destinationLatitude = "-37.988864997462048";
+        public string DestinationLatitude
         {
-            get => Settings.DestinationLatitude;
+            get => destinationLatitude;
             set
             {
-                Settings.DestinationLatitude = value;
+                destinationLatitude = value;
                 OnPropertyChanged(nameof(DestinationLatitude));
             }
         }
 
-        public String DestinationLongitude
+        string destinationLongitude = "145.04484379736329";
+        public string DestinationLongitude
         {
-            get => Settings.DestinationLongitude;
+            get => destinationLongitude;
             set
             {
-                Settings.DestinationLongitude = value;
+                destinationLongitude = value;
                 OnPropertyChanged(nameof(DestinationLongitude));
             }
         }
 
-        public String DestinationTimeStamp
+        string destinationTimeStamp = "2023-04-06T03:39:30+0000";
+        public string DestinationTimeStamp
         {
-            get => Settings.DestinationTimeStamp;
+            get => destinationTimeStamp;
             set
             {              
-                Settings.DestinationTimeStamp = value;
+                destinationTimeStamp = value;
                 OnPropertyChanged(nameof(DestinationTimeStamp));
             }
-        }
-
-        public DateTime MaxDateTime
-        {
-            get => DateTime.Now;
-        }
-
-        public DateTime MinDateTime
-        {
-            get => DateTime.MinValue;
-        }
+        }  
 
         #endregion
     }
