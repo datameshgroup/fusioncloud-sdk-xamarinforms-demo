@@ -23,5 +23,8 @@
     <Compile Update="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\OtherFieldsPage.xaml.cs">
+      <DependentUpon>OtherFieldsPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>
