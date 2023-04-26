@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Com.Airbnb.Xamarin.Forms.Lottie" Version="4.1.0" />
-    <PackageReference Include="DataMeshGroup.Fusion.FusionClient" Version="1.2.18-beta4" />
+    <PackageReference Include="DataMeshGroup.Fusion.FusionClient" Version="1.2.18-beta5" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.7.5" />
@@ -16,6 +16,9 @@
   <ItemGroup>
     <Compile Update="Views\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TransactionPage.xaml.cs">
+      <DependentUpon>TransactionPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\PaymentPage.xaml.cs">
       <DependentUpon>PaymentPage.xaml</DependentUpon>

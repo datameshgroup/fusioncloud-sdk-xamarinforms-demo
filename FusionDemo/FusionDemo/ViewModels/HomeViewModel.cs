@@ -9,6 +9,8 @@ using DataMeshGroup.Fusion.Model;
 using System.Dynamic;
 using FusionDemo.Views;
 using DataMeshGroup.Fusion.Model.Transit;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace FusionDemo.ViewModels
 {
@@ -19,6 +21,7 @@ namespace FusionDemo.ViewModels
             Title = "Payments";
             DoPurchaseCommand = new Command(async () => await DoPurchase());
             DoRefundCommand = new Command(async () => await DoRefund());
+            DoGetTotalsCommand = new Command(async () => await DoGetTotals());
             NavigateSettingsCommand = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(SettingsPage)}"));
             NavigateOtherFieldsCommand = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(OtherFieldsPage)}"));
         }
@@ -27,6 +30,7 @@ namespace FusionDemo.ViewModels
         public ICommand NavigateOtherFieldsCommand { get; }
         public ICommand DoPurchaseCommand { get; }
         public ICommand DoRefundCommand { get; }
+        public ICommand DoGetTotalsCommand { get; }
 
         private bool dialogDisplayOtherFieldsButton;
         public bool DialogDisplayOtherFieldsButton
@@ -109,6 +113,22 @@ namespace FusionDemo.ViewModels
             Settings.Instance.Payment.Request.PaymentTransaction = paymentRequest.PaymentTransaction;
         }
 
+        private void CreateGetTotals()
+        {
+            // Construct gettotal request
+            GetTotalsRequest getTotalsRequest = new GetTotalsRequest()
+            {
+                TotalDetails = new List<TotalDetail> { TotalDetail.TxnListing },
+                TotalFilter = new TotalFilter()
+                {
+                    OperatorID = Settings.OperatorID,
+                    ShiftNumber = Settings.ShiftNumber
+                }
+            };      
+            
+            Settings.Instance.GetTotals.Request = getTotalsRequest;
+        }
+
         private async Task DoPurchase()
         {
             PaymentType = PaymentType.Normal;
@@ -121,6 +141,12 @@ namespace FusionDemo.ViewModels
             PaymentType = PaymentType.Refund;
             UpdatePaymentRequest();
             await Shell.Current.GoToAsync($"//{nameof(PaymentPage)}");
+        }
+
+        private async Task DoGetTotals()
+        {
+            CreateGetTotals();
+            await Shell.Current.GoToAsync($"//{nameof(TransactionPage)}");
         }
 
         public async override Task OnNavigatedTo()

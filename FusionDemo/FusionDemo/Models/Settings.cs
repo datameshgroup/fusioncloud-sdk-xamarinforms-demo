@@ -31,6 +31,7 @@ namespace FusionDemo.Models
 
             CreateFusionClient();
             CreatePayment();
+            GetTotals = new GetTotals();
         }
 
         public bool UseTestEnvironment
@@ -171,14 +172,45 @@ namespace FusionDemo.Models
                 {
                     return (bool)value;
                 }
-                return false;
+                return true;
             }
             set
             {
                 Application.Current.Properties[nameof(DisplayOtherFields)] = value;
             }
-        }        
+        }
+                    
+        public string OperatorID
+        {
+            get
+            {
+                if (Application.Current.Properties.TryGetValue(nameof(OperatorID), out object value))
+                {
+                    return (string)value;
+                }
+                return "4452";
+            }
+            set
+            {
+                Application.Current.Properties[nameof(OperatorID)] = value;
+            }
+        }
 
+        public string ShiftNumber
+        {
+            get
+            {
+                if (Application.Current.Properties.TryGetValue(nameof(ShiftNumber), out object value))
+                {
+                    return (string)value;
+                }
+                return "2023-04-06_01";
+            }
+            set
+            {
+                Application.Current.Properties[nameof(ShiftNumber)] = value;
+            }
+        }
 
         private void FusionClient_OnLog(object sender, LogEventArgs e)
         {
@@ -226,6 +258,9 @@ namespace FusionDemo.Models
             FusionClient.OnLog += FusionClient_OnLog;
         }
 
+        // Shared Payment instance
+        public Payment Payment { get; private set; }
+
         public void CreatePayment()
         {
             Payment = new Payment();
@@ -238,9 +273,6 @@ namespace FusionDemo.Models
             Payment.Request = request;
         }
 
-        // Shared Payment instance
-        public Payment Payment { get; private set; }
-
         private PaymentRequest CreatePaymentRequest()
         {
             // Construct payment request
@@ -248,8 +280,8 @@ namespace FusionDemo.Models
             {
                 SaleData = new SaleData()
                 {
-                    OperatorID = "4452",
-                    ShiftNumber = "2023-04-06_01",
+                    OperatorID = this.OperatorID,
+                    ShiftNumber = this.ShiftNumber,
                     SaleTransactionID = new TransactionIdentification()
                     {
                         TransactionID = "0347d00e-5d13-4043-b92b-6bf32381ab16",
@@ -297,5 +329,7 @@ namespace FusionDemo.Models
 
             return paymentRequest;
         }
+
+        public GetTotals GetTotals { get; set; }
     }
 }

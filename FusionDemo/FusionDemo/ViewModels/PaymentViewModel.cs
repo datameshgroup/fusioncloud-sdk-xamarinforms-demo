@@ -182,7 +182,6 @@ namespace FusionDemo.ViewModels
             //this is unique to every payment request
             string serviceId = Guid.NewGuid().ToString();
 
-
             // Overall processing timeout. Defaults to 5m30s.
             using CancellationTokenSource overallTimeoutCTS = new CancellationTokenSource(TimeSpan.FromMilliseconds(transactionProcessingTimeoutMSecs));
             // Process payment 

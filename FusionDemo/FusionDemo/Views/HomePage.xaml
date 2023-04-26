@@ -50,6 +50,14 @@
             <Setter Property="FontSize" Value="Medium"/>
         </Style>
 
+        <Style x:Key="Separator" TargetType="BoxView">
+            <Setter Property="HeightRequest" Value="1" />
+            <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            <Setter Property="Color" Value="Gray" />
+            <Setter Property="Margin" Value="0, 5, 0, 5" />
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+
     </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
@@ -66,26 +74,32 @@
                 <Image Source="xamarin_logo.png" VerticalOptions="Center" HeightRequest="64" />
             </ContentView>
         </StackLayout>
-        <StackLayout Grid.Row="1" Padding="30,24,30,24" Spacing="10">
+        <ScrollView Grid.Row="1" Padding="30,24,30,24">
+            <StackLayout Spacing="10">
+                <Label Text="Requested Amt:" />
+                <Entry Text="{Binding RequestedAmount}" Keyboard="Numeric"/>
 
+                <Label Text="Tip Amt:" />
+                <Entry Text="{Binding TipAmount}" Keyboard="Numeric"/>
 
-            <Label Text="Requested Amt:" />
-            <Entry Text="{Binding RequestedAmount}" Keyboard="Numeric"/>
+                <Label Text="CashBack Amt:" />
+                <Entry Text="{Binding CashBackAmount}" Keyboard="Numeric"/>
 
-            <Label Text="Tip Amt:" />
-            <Entry Text="{Binding TipAmount}" Keyboard="Numeric"/>
+                <Button x:Name="OtherFieldsButton" Text="Other Fields" Command="{Binding NavigateOtherFieldsCommand}" IsVisible="{Binding DialogDisplayOtherFieldsButton}"/>
 
-            <Label Text="CashBack Amt:" />
-            <Entry Text="{Binding CashBackAmount}" Keyboard="Numeric"/>
+                <Label Text="Product Code:" />
+                <Entry Text="{Binding ProductCode}" Keyboard="Text"/>
 
-            <Button x:Name="OtherFieldsButton" Text="Other Fields" Command="{Binding NavigateOtherFieldsCommand}" IsVisible="{Binding DialogDisplayOtherFieldsButton}"/>
+                <Button Text="Purchase" Command="{Binding DoPurchaseCommand}" />
+                <Button Text="Refund" Command="{Binding DoRefundCommand}" />
 
-            <Label Text="Product Code:" />
-            <Entry Text="{Binding ProductCode}" Keyboard="Text"/>
+                <BoxView x:Name="ReportsSeparator" Style="{StaticResource Separator}" IsVisible="{Binding DialogDisplayOtherFieldsButton}"/>
 
-            <Button Text="Purchase" Command="{Binding DoPurchaseCommand}" />
-            <Button Text="Refund" Command="{Binding DoRefundCommand}" />
-        </StackLayout>
+                <Label Text="Reports:" IsVisible="{Binding DialogDisplayOtherFieldsButton}"/>
+                <Button Text="Get Totals" Command="{Binding DoGetTotalsCommand}" IsVisible="{Binding DialogDisplayOtherFieldsButton}"/>
+
+            </StackLayout>
+        </ScrollView>
     </Grid>
 
 </ContentPage>

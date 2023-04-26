@@ -94,24 +94,22 @@ namespace FusionDemo.ViewModels
 
         #region Properties
 
-        string operatorID = "4452";
         public string OperatorID
         {
-            get => operatorID;
+            get => Settings.OperatorID;
             set
             {
-                operatorID = value;
+                Settings.OperatorID = value;
                 OnPropertyChanged(nameof(OperatorID));
             }
         }
 
-        string shiftNumber = "2023-04-06_01";
         public string ShiftNumber
         {
-            get => shiftNumber;
+            get => Settings.ShiftNumber;
             set
             {
-                shiftNumber = value;
+                Settings.ShiftNumber = value;
                 OnPropertyChanged(nameof(ShiftNumber));
             }
         }

@@ -8,50 +8,48 @@ using System.Threading.Tasks;
 namespace FusionDemo.Models
 {
     /// <summary>
-    /// Helper class for util functions which help present a payment response UI
+    /// Helper class for util functions which help present a get totals response UI
     /// </summary>
-    public class PaymentDialogResponse
+    public class TransactionDialogResponse
     {
+        public enum TransactionType { GetTotals, Login } //to do: add other transactions
         /// <summary>
-        /// Construct a PaymentDialogResponse based on a payment response
+        /// Construct a TransactionDialogResponse based on a getTotalsResponse response
         /// </summary>
-        /// <param name="paymentResponse"></param>
-        public PaymentDialogResponse(PaymentResponse paymentResponse)
+        /// <param name="getTotalsResponse"></param>
+        public TransactionDialogResponse(GetTotalsResponse getTotalsResponse)
         {
-            PaymentResponse = paymentResponse;
+            CurrentTransactionType = TransactionType.GetTotals;
+
+            GetTotalsResponse = getTotalsResponse;
 
             ErrorTitle = Success ? null : ErrorConditionToDisplayText(Response?.ErrorCondition);
-            ErrorText = Success ? null : Response?.AdditionalResponse;
-            PaymentType = PaymentTypeToDisplayText(paymentResponse?.PaymentResult?.PaymentType ?? DataMeshGroup.Fusion.Model.PaymentType.Unknown);
+            ErrorText = Success ? null : Response?.AdditionalResponse;            
         }
 
-        /// <summary>
-        /// Construct a PaymentDialogResponse based on a different response type (e.g. Login, CardAcquisition etc)
-        /// </summary>
-        /// <param name="response"></param>
-        /// <param name="paymentType"></param>
-        public PaymentDialogResponse(Response response, string paymentType)
+        public TransactionDialogResponse(Response response, TransactionType transactionType)
         {
+            CurrentTransactionType = transactionType;
+
             Response = response;
 
             ErrorTitle = Success ? null : ErrorConditionToDisplayText(Response?.ErrorCondition);
             ErrorText = Success ? null : Response?.AdditionalResponse;
-            PaymentType = paymentType;
         }
 
+        public TransactionType CurrentTransactionType { get; private set; }
+        
         Response response = null;
         public Response Response
         {
-            get => response ?? PaymentResponse?.Response ?? null;
+            get => response ?? GetTotalsResponse?.Response ?? null;
             set => response = value;
         }
 
-        public PaymentResponse PaymentResponse { get; internal set; }
+        public GetTotalsResponse GetTotalsResponse { get; internal set; }
 
         public bool Success => Response?.Success == true;
 
-
-        public string PaymentType { get; set; }
         public string ErrorTitle { get; set; }
         public string ErrorText { get; set; }
 
@@ -59,32 +57,27 @@ namespace FusionDemo.Models
         /// Returns the title which should display at the top of the payment result dialog. 
         /// Depending on the result, will return: "PAYMENT APPROVED", "PAYMENT DECLINED", "LOGIN APPROVED", "LOGIN DECLINED"
         /// </summary>
-        public string PaymentResultTitle
+        public string TransactionResultTitle
         {
             get
             {
-                return (PaymentType?.ToUpper() == "LOGIN" ? "LOGIN" : "PAYMENT") + " " + (Response?.Success == true ? "APPROVED" : "DECLINED");
+                return TransactionTypeToDisplayText(CurrentTransactionType) + " " + (Response?.Success == true ? "APPROVED" : "DECLINED");
             }
-        }
+        }        
 
-        public static string PaymentTypeToDisplayText(PaymentType? paymentType)
+        public static string TransactionTypeToDisplayText(TransactionType transactionType)
         {
-            switch (paymentType)
+            switch(transactionType)
             {
-                case DataMeshGroup.Fusion.Model.PaymentType.CashAdvance:
-                    return "CASH ADVANCE";
-                case DataMeshGroup.Fusion.Model.PaymentType.Refund:
-                    return "REFUND";
-                case DataMeshGroup.Fusion.Model.PaymentType.Unknown:
-                    return "RECOVERY";
-                case DataMeshGroup.Fusion.Model.PaymentType.Normal:
-                case null:
+                case TransactionType.GetTotals:
+                    return "GET TOTALS";
+                case TransactionType.Login:
+                    return "LOGIN";
                 default:
-                    return "PURCHASE";
+                    return "UNKNOWN";
             }
         }
-
-        public static string ErrorConditionToDisplayText(ErrorCondition? errorCondition)
+        private static string ErrorConditionToDisplayText(ErrorCondition? errorCondition)
         {
             switch (errorCondition)
             {
