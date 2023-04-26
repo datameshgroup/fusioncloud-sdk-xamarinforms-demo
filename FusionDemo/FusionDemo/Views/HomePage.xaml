@@ -78,7 +78,7 @@
             <Label Text="CashBack Amt:" />
             <Entry Text="{Binding CashBackAmount}" Keyboard="Numeric"/>
 
-            <Button x:Name="OtherFieldsButton" Text="Other Fields" Command="{Binding NavigateOtherFieldsCommand}"/>
+            <Button x:Name="OtherFieldsButton" Text="Other Fields" Command="{Binding NavigateOtherFieldsCommand}" IsVisible="{Binding DialogDisplayOtherFieldsButton}"/>
 
             <Label Text="Product Code:" />
             <Entry Text="{Binding ProductCode}" Keyboard="Text"/>

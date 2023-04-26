@@ -117,6 +117,16 @@ namespace FusionDemo.ViewModels
             }
         }
 
+        public bool DisplayOtherFields
+        {
+            get => Settings.DisplayOtherFields;
+            set
+            {
+                Settings.DisplayOtherFields = value;
+                OnPropertyChanged(nameof(DisplayOtherFields));
+            }
+        }
+
         #endregion
     }
 }

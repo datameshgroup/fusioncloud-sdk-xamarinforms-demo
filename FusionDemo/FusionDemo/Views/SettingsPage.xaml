@@ -93,7 +93,8 @@
                     <Label Text="Custom URL:" />
                     <Entry Text="{Binding CustomNexoURL}"/>
 
-
+                    <Label Text="Display Other Fields:" />
+                    <CheckBox IsChecked="{Binding DisplayOtherFields}"/>
                 </StackLayout>
             </ScrollView>
 

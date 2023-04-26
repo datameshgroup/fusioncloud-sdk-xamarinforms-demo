@@ -28,6 +28,16 @@ namespace FusionDemo.ViewModels
         public ICommand DoPurchaseCommand { get; }
         public ICommand DoRefundCommand { get; }
 
+        private bool dialogDisplayOtherFieldsButton;
+        public bool DialogDisplayOtherFieldsButton
+        {
+            get => dialogDisplayOtherFieldsButton;
+            set
+            {
+                SetProperty(ref dialogDisplayOtherFieldsButton, value);
+            }
+        }
+
         private void UpdatePaymentRequest()
         {
             // Construct payment request
@@ -119,6 +129,10 @@ namespace FusionDemo.ViewModels
             if (string.IsNullOrEmpty(s.SaleID) || string.IsNullOrEmpty(s.POIID) || string.IsNullOrEmpty(s.KEK))
             {
                 await Shell.Current.GoToAsync($"//{nameof(SettingsPage)}");
+            }
+            else
+            {
+                DialogDisplayOtherFieldsButton = Settings.DisplayOtherFields;
             }
         }
 

@@ -163,19 +163,19 @@ namespace FusionDemo.Models
             }
         }
 
-        public bool OtherSettings
+        public bool DisplayOtherFields
         {
             get
             {
-                if (Application.Current.Properties.TryGetValue(nameof(OtherSettings), out object value))
+                if (Application.Current.Properties.TryGetValue(nameof(DisplayOtherFields), out object value))
                 {
                     return (bool)value;
                 }
-                return true;
+                return false;
             }
             set
             {
-                Application.Current.Properties[nameof(OtherSettings)] = value;
+                Application.Current.Properties[nameof(DisplayOtherFields)] = value;
             }
         }
 
