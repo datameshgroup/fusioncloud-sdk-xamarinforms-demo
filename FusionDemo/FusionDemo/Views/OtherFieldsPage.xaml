@@ -62,6 +62,12 @@
 
             <ScrollView Grid.Row="0">
                 <StackLayout>
+                    <Label Text="Client ID:" />
+                    <Entry Text="{Binding RegisteredIdentifier}"/>
+
+                    <Label Text="Vehicle ID:" />
+                    <Entry Text="{Binding SiteID}"/>
+
                     <Label Text="Device Settings" Style="{StaticResource SubTitleLabel}"/>
 
                     <Label Text="Device ID:" />
@@ -75,14 +81,8 @@
                     <Label Text="Shift ID:" />
                     <Entry Text="{Binding ShiftNumber}"/>
 
-                    <Label Text="Business ID:" />
+                    <Label Text="ABN:" />
                     <Entry Text="{Binding BusinessID}"/>
-
-                    <Label Text="Client ID:" />
-                    <Entry Text="{Binding RegisteredIdentifier}"/>
-
-                    <Label Text="Site ID:" />
-                    <Entry Text="{Binding SiteID}"/>
 
                     <Label Text="Trip Details" Style="{StaticResource SubTitleLabel}"/>
 
