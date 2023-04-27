@@ -118,7 +118,7 @@ namespace FusionDemo.ViewModels
             // Construct gettotal request
             GetTotalsRequest getTotalsRequest = new GetTotalsRequest()
             {
-                TotalDetails = new List<TotalDetail> { TotalDetail.TxnListing },
+                TotalDetails = new List<TotalDetail> { TotalDetail.EndOfShift },
                 TotalFilter = new TotalFilter()
                 {
                     OperatorID = Settings.OperatorID,

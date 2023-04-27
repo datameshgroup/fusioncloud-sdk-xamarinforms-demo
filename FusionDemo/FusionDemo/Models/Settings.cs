@@ -108,7 +108,7 @@ namespace FusionDemo.Models
                 {
                     return (string)value;
                 }
-                return "wss://cloudposintegration.io/nexodev";
+                return "wss://cloudposintegration.io/nexotest";
             }
             set
             {
@@ -230,7 +230,8 @@ namespace FusionDemo.Models
             {
                 SaleID = SaleID,
                 POIID = POIID,
-                KEK = KEK,
+                KEK = KEK,                
+                CustomURL = CustomNexoURL,
                 LogLevel = DataMeshGroup.Fusion.LogLevel.Trace,
                 LoginRequest = new LoginRequest()
                 {
@@ -253,8 +254,8 @@ namespace FusionDemo.Models
                             }
                     }
                 }
-            };            
-
+            };
+            FusionClient.URL = string.IsNullOrWhiteSpace(CustomNexoURL) ? FusionClient.URL : UnifyURL.Custom;
             FusionClient.OnLog += FusionClient_OnLog;
         }
 
