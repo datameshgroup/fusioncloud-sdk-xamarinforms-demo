@@ -91,7 +91,7 @@
                     <Entry Text="{Binding TransactionID}"/>
 
                     <Label Text="Date Time:" />
-                    <Entry Text="{Binding SaleTransactionTimeStamp}"/> 
+                    <Entry Text="{Binding SaleTransactionTimeStamp}" IsReadOnly="True"/> 
 
                     <Label Text="Trip Details" Style="{StaticResource SubTitleLabel}"/>
 
