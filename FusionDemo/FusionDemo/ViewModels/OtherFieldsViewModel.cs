@@ -23,11 +23,14 @@ namespace FusionDemo.ViewModels
 
         private async void OnSaveClicked(object obj)
         {
-            // Need to recreate the Payment if payment settings have changed
-            Settings.CreatePayment(CreatePaymentRequest());
+            if (DateTime.Compare(PickUpDateTime, DestinationDateTime) < 0)
+            {
+                // Need to recreate the Payment if payment settings have changed
+                Settings.CreatePayment(CreatePaymentRequest());
 
-            // Navigate 
-            await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+                // Navigate 
+                await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+            }
         }
 
         public override Task OnNavigatedTo()
@@ -74,7 +77,7 @@ namespace FusionDemo.ViewModels
                                 StopName = this.PickUpStopName,
                                 Latitude = this.PickUpLatitude,
                                 Longitude = this.PickUpLongitude,
-                                Timestamp = DateTime.Parse(this.PickUpTimeStamp)
+                                Timestamp = this.PickUpDateTime
                             },
                             Destination = new Stop()
                             {
@@ -82,7 +85,7 @@ namespace FusionDemo.ViewModels
                                 StopName = this.DestinationStopName,
                                 Latitude = this.DestinationLatitude,
                                 Longitude = this.DestinationLongitude,
-                                Timestamp = DateTime.Parse(this.DestinationTimeStamp)
+                                Timestamp = this.DestinationDateTime
                             }
                         }
                     }
@@ -238,14 +241,44 @@ namespace FusionDemo.ViewModels
             }
         }
 
-        string pickUpTimeStamp = "2023-04-06T03:00:15+0000";
-        public string PickUpTimeStamp
+        public DateTime PickUpDateTime
         {
-            get => pickUpTimeStamp;
+            get 
+            {
+                return pickUpDate.Date.AddHours(pickUpHour).AddMinutes(pickUpMinute);
+            }
+        }
+
+        DateTime pickUpDate;
+        public DateTime PickUpDate
+        {
+            get => pickUpDate;
             set
             {
-                pickUpTimeStamp = value;
-                OnPropertyChanged(nameof(PickUpTimeStamp));
+                pickUpDate = value;
+                OnPropertyChanged(nameof(PickUpDate));
+            }
+        }
+
+        int pickUpHour;
+        public int PickUpHour
+        {
+            get => pickUpHour;
+            set
+            {
+                pickUpHour = value;
+                OnPropertyChanged(nameof(PickUpHour));
+            }
+        }
+
+        int pickUpMinute;
+        public int PickUpMinute
+        {
+            get => pickUpMinute;
+            set
+            {
+                pickUpMinute = value;
+                OnPropertyChanged(nameof(PickUpMinute));
             }
         }
 
@@ -281,17 +314,48 @@ namespace FusionDemo.ViewModels
                 OnPropertyChanged(nameof(DestinationLongitude));
             }
         }
-
-        string destinationTimeStamp = "2023-04-06T03:39:30+0000";
-        public string DestinationTimeStamp
+        
+        public DateTime DestinationDateTime
         {
-            get => destinationTimeStamp;
-            set
-            {              
-                destinationTimeStamp = value;
-                OnPropertyChanged(nameof(DestinationTimeStamp));
+            get 
+            {
+                return destinationDate.Date.AddHours(destinationHour).AddMinutes(destinationMinute);
+
             }
-        }  
+        }
+
+        DateTime destinationDate;
+        public DateTime DestinationDate
+        {
+            get => destinationDate;
+            set
+            {
+                destinationDate = value;
+                OnPropertyChanged(nameof(DestinationDate));
+            }
+        }
+
+        int destinationHour;
+        public int DestinationHour
+        {
+            get => destinationHour;
+            set
+            {
+                destinationHour = value;
+                OnPropertyChanged(nameof(DestinationHour));
+            }
+        }
+
+        int destinationMinute;
+        public int DestinationMinute
+        {
+            get => destinationMinute;
+            set
+            {
+                destinationMinute = value;
+                OnPropertyChanged(nameof(DestinationMinute));
+            }
+        }
 
         #endregion
     }

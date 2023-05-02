@@ -10,7 +10,8 @@
     <PackageReference Include="DataMeshGroup.Fusion.FusionClient" Version="1.2.18-beta6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />  
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.5" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.5" />  
+    <PackageReference Include="Xamarin.Plugin.DateTimePicker" Version="1.0.3" />
   </ItemGroup>
 
   <ItemGroup>

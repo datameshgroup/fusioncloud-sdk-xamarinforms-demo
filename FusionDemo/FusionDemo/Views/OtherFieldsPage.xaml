@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FusionDemo.Views.OtherFieldsPage"
-             xmlns:vm="clr-namespace:FusionDemo.ViewModels"
+             xmlns:vm="clr-namespace:FusionDemo.ViewModels" 
+             xmlns:dt="clr-namespace:Xamarin.Plugin.DateTimePicker.Controls;assembly=Xamarin.Plugin.DateTimePicker"
              Title="{Binding Title}"
              >
 
@@ -111,8 +112,8 @@
                     <Label Text="Longitude:" />
                     <Entry Text="{Binding PickUpLongitude}"/>
 
-                    <Label Text="TimeStamp:" />
-                    <Entry Text="{Binding PickUpTimeStamp}"/>
+                    <Label Text="Time Stamp:" />
+                    <dt:DateTimePicker x:Name="PickUpDateTimePicker" SelectedDate="{Binding PickUpDate}" SelectedHour="{Binding PickUpHour}" SelectedMinute="{Binding PickUpMinute}"/>
 
                     <Label Text="Destination Details" Style="{StaticResource SubTitleLabel}"/>
 
@@ -125,12 +126,11 @@
                     <Label Text="Longitude:" />
                     <Entry Text="{Binding DestinationLongitude}"/>
 
-                    <Label Text="TimeStamp:" />
-                    <Entry Text="{Binding DestinationTimeStamp}"/>
+                    <Label Text="Time Stamp:" />
+                    <dt:DateTimePicker x:Name="DestinationDateTimePicker" SelectedDate="{Binding DestinationDate}" SelectedHour="{Binding DestinationHour}" SelectedMinute="{Binding DestinationMinute}"/>
 
                 </StackLayout>
             </ScrollView>
-
 
             <Button Grid.Row="1" VerticalOptions="Center" Text="Save" Command="{Binding SaveCommand}"/>
 
