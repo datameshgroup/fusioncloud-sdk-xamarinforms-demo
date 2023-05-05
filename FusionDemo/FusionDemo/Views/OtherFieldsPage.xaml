@@ -157,6 +157,8 @@
                         </ListView.ItemTemplate>
                     </ListView>
 
+                    <Label Text="*No Sale Item set*" IsVisible="{Binding NoSaleItemTextVisibility}"/>
+
                     <Label Text="Add New Sale Item" />
                     
                     <Label Text="Item ID:" />

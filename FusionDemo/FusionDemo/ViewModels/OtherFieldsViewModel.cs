@@ -550,12 +550,25 @@ namespace FusionDemo.ViewModels
                 if (value)
                 {
                     SaleItemListVisibility = "True";
+                    NoSaleItemTextVisibility = "False";
                 }
                 else
                 {
                     SaleItemListVisibility = "False";
+                    NoSaleItemTextVisibility = "True";
                 }
                 OnPropertyChanged(nameof(IsSaleItemListVisible));
+            }
+        }
+
+        string noSaleItemTextVisibility = "True";
+        public string NoSaleItemTextVisibility
+        {
+            get => noSaleItemTextVisibility;
+            set
+            {
+                noSaleItemTextVisibility = value;
+                OnPropertyChanged(nameof(NoSaleItemTextVisibility));
             }
         }
 
