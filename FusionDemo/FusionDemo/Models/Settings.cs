@@ -204,7 +204,7 @@ namespace FusionDemo.Models
                 {
                     return (string)value;
                 }
-                return "2023-04-06_01";
+                return Guid.NewGuid().ToString();
             }
             set
             {
@@ -276,6 +276,17 @@ namespace FusionDemo.Models
 
         private PaymentRequest CreatePaymentRequest()
         {
+
+            DateTime defaultDateTime = DateTime.Now;
+
+            DateTime pickUpDate = defaultDateTime.AddDays(-1);
+            int pickUpHour = defaultDateTime.Hour;
+            int pickUpMinute = defaultDateTime.Minute;
+
+            DateTime destinationDate = defaultDateTime;
+            int destinationHour = defaultDateTime.Hour;
+            int destinationMinute = defaultDateTime.Minute;
+
             // Construct payment request
             PaymentRequest paymentRequest = new PaymentRequest()
             {
@@ -313,7 +324,7 @@ namespace FusionDemo.Models
                                 StopName = "Richmond",
                                 Latitude = "-37.82274517047244",
                                 Longitude = "144.98394642094434",
-                                Timestamp = DateTime.Parse("2023-04-06T03:00:15+0000")
+                                Timestamp = pickUpDate.Date.AddHours(pickUpHour).AddMinutes(pickUpMinute)
                             },
                             Destination = new Stop()
                             {
@@ -321,16 +332,90 @@ namespace FusionDemo.Models
                                 StopName = "Beaumaris",
                                 Latitude = "-37.988864997462048",
                                 Longitude = "145.04484379736329",
-                                Timestamp = DateTime.Parse("2023-04-06T03:39:30+0000")
+                                Timestamp = destinationDate.Date.AddHours(destinationHour).AddMinutes(destinationMinute)
                             }
                         }
                     }
-                }
-            };
+                },
+                PaymentTransaction = new PaymentTransaction()                
+            };           
+            
+            foreach (SaleItem saleItem in defaultSaleItemsList)
+            {
+                paymentRequest.AddSaleItem(itemID: saleItem.ItemID,
+                    productCode: saleItem.ProductCode,
+                    productLabel: saleItem.ProductLabel,
+                    unitOfMeasure: saleItem.UnitOfMeasure,
+                    unitPrice: saleItem.UnitPrice,
+                    quantity: saleItem.Quantity,
+                    itemAmount: saleItem.ItemAmount,
+                    tags: saleItem.Tags);
+            }            
 
             return paymentRequest;
         }
 
         public GetTotals GetTotals { get; set; }
+
+        private List<SaleItem> defaultSaleItemsList = new List<SaleItem>()
+        {
+            new SaleItem()
+            {
+                ItemID = 0,
+                ProductCode = "MeteredFare",
+                ProductLabel = "TRF 1 SINGLE",
+                UnitOfMeasure = UnitOfMeasure.Kilometre,
+                UnitPrice = 2.5M,
+                Quantity = 8,
+                ItemAmount = 20
+            },
+            new SaleItem()
+            {
+                ItemID = 1,
+                ProductCode = "SAGovLevy",
+                ProductLabel = "SA GOV LEVY",
+                UnitOfMeasure = UnitOfMeasure.Other,
+                UnitPrice = 8,
+                Quantity = 1,
+                ItemAmount = 8,
+                Tags = new List<string>()
+                {
+                    "subtotal"
+                }
+            },
+            new SaleItem()
+            {
+                ItemID = 1,
+                ProductCode = "NSWGovLevy",
+                ProductLabel = "NSW GOV LEVY",
+                UnitOfMeasure = UnitOfMeasure.Other,
+                UnitPrice = 8,
+                Quantity = 1,
+                ItemAmount = 8,
+                Tags = new List<string>()
+                {
+                    "extra"
+                }
+            },
+            new SaleItem()
+            {
+                ItemID = 2,
+                ProductCode = "LateNightFee",
+                ProductLabel = "Late Night Fee",
+                UnitOfMeasure = UnitOfMeasure.Other,
+                UnitPrice = 2.10M,
+                Quantity = 1,
+                ItemAmount = 2.10M,
+                Tags = new List<string>()
+                {
+                    "extra"
+                }
+            }
+        };
+
+        public List<SaleItem> DefaultSaleItemsList
+        {
+            get => defaultSaleItemsList;            
+        }
     }
 }

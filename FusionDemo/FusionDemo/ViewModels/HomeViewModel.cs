@@ -11,6 +11,7 @@ using FusionDemo.Views;
 using DataMeshGroup.Fusion.Model.Transit;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using FusionDemo.Util;
 
 namespace FusionDemo.ViewModels
 {
@@ -45,72 +46,23 @@ namespace FusionDemo.ViewModels
         private void UpdatePaymentRequest()
         {
             // Construct payment request
-            PaymentRequest paymentRequest = new PaymentRequest()
+            // 
+            PaymentRequest paymentRequest = Settings.Instance.Payment.Request;
+            paymentRequest.PaymentData = new PaymentData()
             {
-                PaymentData = new PaymentData()
-                {
-                    PaymentType = paymentType
-                },
-                PaymentTransaction = new PaymentTransaction()
-                {
-                    AmountsReq = new AmountsReq()
-                    {
-                        Currency = CurrencySymbol.AUD,
-                        RequestedAmount = requestedAmount,
-                        TipAmount = tipAmount,
-                        CashBackAmount = cashBackAmount
-                    },
-                    SaleItem = new List<SaleItem>()
-                    {
-                        new SaleItem()
-                        {
-                            ItemID = 0,
-                            ProductCode = "MeteredFare",
-                            ProductLabel = "TRF 1 SINGLE",
-                            UnitOfMeasure = UnitOfMeasure.Kilometre,
-                            UnitPrice = 2M,
-                            Quantity = 8M,
-                            ItemAmount = requestedAmount / 2
-                        },
-                        new SaleItem()
-                        {
-                            ItemID = 1,
-                            ProductCode = "NSWGovLevy",
-                            ProductLabel = "NSW GOV LEVY",
-                            UnitOfMeasure = UnitOfMeasure.Other,
-                            UnitPrice = 8M,
-                            Quantity = 1M,
-                            ItemAmount = requestedAmount / 4,
-                            Tags = new List<string>()
-                            {
-                                "subtotal"
-                            }
-                        },
-                        new SaleItem()
-                        {
-                            ItemID = 2,
-                            ProductCode = "LateNightFee",
-                            ProductLabel = "Late Night Fee",
-                            UnitOfMeasure = UnitOfMeasure.Other,
-                            UnitPrice = 2.1M,
-                            Quantity = 1M,
-                            ItemAmount = requestedAmount / 4,
-                            Tags = new List<string>()
-                            {
-                                "extra"
-                            }
-                        }
-                    }
-                }                                
-            };           
-
-            if(!String.IsNullOrEmpty(ProductCode))
+                PaymentType = paymentType
+            };
+            paymentRequest.PaymentTransaction.AmountsReq = new AmountsReq()
+            {
+                Currency = CurrencySymbol.AUD,
+                RequestedAmount = requestedAmount,
+                TipAmount = tipAmount,
+                CashBackAmount = cashBackAmount
+            };
+            if (!String.IsNullOrEmpty(ProductCode))
             {
                 paymentRequest.AddSaleItem(productCode: ProductCode, productLabel: ProductCode, itemAmount: 0);
             }
-
-            Settings.Instance.Payment.Request.PaymentData = paymentRequest.PaymentData;
-            Settings.Instance.Payment.Request.PaymentTransaction = paymentRequest.PaymentTransaction;
         }
 
         private void CreateGetTotals()
@@ -171,7 +123,7 @@ namespace FusionDemo.ViewModels
             set { SetProperty(ref paymentType, value); }
         }
 
-        decimal requestedAmount = 10.42M;
+        decimal requestedAmount = 38.1M;
         public decimal RequestedAmount
         {
             get { return requestedAmount; }
