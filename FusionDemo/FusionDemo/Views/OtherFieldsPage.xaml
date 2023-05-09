@@ -144,7 +144,7 @@
                             <DataTemplate>
                                 <ViewCell>
                                     <StackLayout Orientation="Vertical" Margin="10,5,0,5" Padding="0,3,0,0">
-                                        <Label Text="{Binding ItemID, StringFormat='Item ID = {0:N}'}"></Label>
+                                        <Label Text="{Binding ItemID, StringFormat='Item ID = {0:N0}'}"></Label>
                                         <Label Text="{Binding ProductCode, StringFormat='Product Code = {0:N}'}}"></Label>
                                         <Label Text="{Binding ProductLabel,StringFormat='Product Label = {0:N}'}}"></Label>
                                         <Label Text="{Binding UnitOfMeasure,StringFormat='Unit of Measure = {0:N}'}}"></Label>
