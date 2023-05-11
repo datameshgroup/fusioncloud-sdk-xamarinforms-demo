@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FusionDemo.Views.OtherFieldsPage"
              xmlns:vm="clr-namespace:FusionDemo.ViewModels" 
-             xmlns:dt="clr-namespace:Xamarin.Plugin.DateTimePicker.Controls;assembly=Xamarin.Plugin.DateTimePicker" xmlns:local="clr-namespace:FusionDemo.Util"
+             xmlns:local="clr-namespace:FusionDemo.Util"
              Title="{Binding Title}"
              >
 
