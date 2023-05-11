@@ -60,7 +60,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <ScrollView Grid.Row="0" Padding="30,24,30,24">
+            <ScrollView Grid.Row="0" Padding="15,12,15,12">
                 <StackLayout>
                     <Label Text="Client ID:" />
                     <Entry Text="{Binding RegisteredIdentifier}"/>
@@ -90,7 +90,8 @@
                     <Entry Text="{Binding TransactionID}"/>
 
                     <Label Text="Date Time:" />
-                    <Entry Text="{Binding SaleTransactionTimeStamp}" IsReadOnly="True"/>
+                    <DatePicker Format="D" Margin="30, 0, 0, 30" Date="{Binding SaleTransactionTimeStampDate}" />
+                    <TimePicker Format="T" Margin="30, 0, 0, 30" Time="{Binding SaleTransactionTimeStampTimeSpan}" />
 
                     <Label Text="Trip Details" Style="{StaticResource SubTitleLabel}"/>
 
@@ -112,7 +113,8 @@
                     <Entry Text="{Binding PickUpLongitude}"/>
 
                     <Label Text="Time Stamp:" />
-                    <dt:DateTimePicker x:Name="PickUpDateTimePicker" SelectedDate="{Binding PickUpDate}" SelectedHour="{Binding PickUpHour}" SelectedMinute="{Binding PickUpMinute}"/>
+                    <DatePicker MinimumDate="{Binding MinimumTripDateTime}" MaximumDate="{Binding MaximumTripDateTime}" Format="D" Margin="30, 0, 0, 30" Date="{Binding PickUpDate}" />
+                    <TimePicker Format="T" Margin="30, 0, 0, 30" Time="{Binding PickUpTimeSpan}" />
 
                     <Label Text="Destination Details" Style="{StaticResource SubTitleLabel}"/>
 
@@ -126,7 +128,8 @@
                     <Entry Text="{Binding DestinationLongitude}"/>
 
                     <Label Text="Time Stamp:" />
-                    <dt:DateTimePicker x:Name="DestinationDateTimePicker" SelectedDate="{Binding DestinationDate}" SelectedHour="{Binding DestinationHour}" SelectedMinute="{Binding DestinationMinute}"/>
+                    <DatePicker MinimumDate="{Binding MinimumTripDateTime}" MaximumDate="{Binding MaximumTripDateTime}" Format="D" Margin="30, 0, 0, 30" Date="{Binding DestinationDate}" />
+                    <TimePicker Format="T" Margin="30, 0, 0, 30" Time="{Binding DestinationTimeSpan}" />
 
                     <Label Text="Sale Items" Style="{StaticResource SubTitleLabel}"/>
 

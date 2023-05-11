@@ -53,7 +53,8 @@ namespace FusionDemo.ViewModels
 
             SaleData saleData = paymentRequest.SaleData;            
             TransactionID = saleData.SaleTransactionID.TransactionID;
-            SaleTransactionTimeStamp = saleData.SaleTransactionID.TimeStamp.ToString();
+            SaleTransactionTimeStampDate = saleData.SaleTransactionID.TimeStamp.Date;
+            SaleTransactionTimeStampTimeSpan = saleData.SaleTransactionID.TimeStamp.TimeOfDay;
             DeviceID = saleData.SaleTerminalData.DeviceID;
             BusinessID = saleData.SponsoredMerchant.BusinessID;
             RegisteredIdentifier = saleData.SponsoredMerchant.RegisteredIdentifier;
@@ -66,16 +67,18 @@ namespace FusionDemo.ViewModels
             PickUpStopName = transitData.Trip.Pickup.StopName;
             PickUpLatitude = transitData.Trip.Pickup.Latitude;
             PickUpLongitude  = transitData.Trip.Pickup.Longitude;
-            PickUpDate = transitData.Trip.Pickup.Timestamp.Date;
-            PickUpHour = transitData.Trip.Pickup.Timestamp.Hour;
-            PickUpMinute = transitData.Trip.Pickup.Timestamp.Minute;
 
+            MinimumTripDateTime = DateTime.Today.AddDays(-7);
+            MaximumTripDateTime = DateTime.Today.AddDays(1);
+
+            PickUpDate = transitData.Trip.Pickup.Timestamp.Date;
+            PickUpTimeSpan = transitData.Trip.Pickup.Timestamp.TimeOfDay;
+            
             DestinationStopName = transitData.Trip.Destination.StopName;
             DestinationLatitude = transitData.Trip.Destination.Latitude;
             DestinationLongitude = transitData.Trip.Destination.Longitude;
             DestinationDate = transitData.Trip.Destination.Timestamp.Date;
-            DestinationHour = transitData.Trip.Destination.Timestamp.Hour;
-            DestinationMinute = transitData.Trip.Destination.Timestamp.Minute;
+            DestinationTimeSpan = transitData.Trip.Destination.Timestamp.TimeOfDay;
 
             SaleItemsList = new List<SaleItem>();
             if (Settings.Payment.Request.PaymentTransaction.SaleItem != null)
@@ -95,7 +98,7 @@ namespace FusionDemo.ViewModels
                 }
             }
             IsSaleItemListVisible = (saleItemsList != null) && (saleItemsList.Count > 0);
-        }
+        }        
 
         private async void OnSaveClicked(object obj)
         {
@@ -209,7 +212,7 @@ namespace FusionDemo.ViewModels
                     SaleTransactionID = new TransactionIdentification()
                     {
                         TransactionID = this.TransactionID,
-                        TimeStamp = DateTime.Parse(this.SaleTransactionTimeStamp)
+                        TimeStamp = this.SaleTransactionTimeStamp
                     },
                     SaleTerminalData = new SaleTerminalData(false)
                     {
@@ -300,17 +303,33 @@ namespace FusionDemo.ViewModels
             }
         }
 
-        string saleTransactionTimeStamp = DateTime.Now.ToString();
-        public string SaleTransactionTimeStamp
+        public DateTime SaleTransactionTimeStamp
         {
-            get => saleTransactionTimeStamp;
+            get
+            {
+                return saleTransactionTimeStampDate.Date.AddHours(saleTransactionTimeStampTimeSpan.Hours).AddMinutes(saleTransactionTimeStampTimeSpan.Minutes);
+            }
+        }
+
+        DateTime saleTransactionTimeStampDate = DateTime.Today;
+        public DateTime SaleTransactionTimeStampDate
+        {
+            get => saleTransactionTimeStampDate;
             set
             {
-                if (DateTime.TryParse(value, out var date))
-                {
-                    saleTransactionTimeStamp = value;
-                    OnPropertyChanged(nameof(SaleTransactionTimeStamp));
-                }
+                saleTransactionTimeStampDate = value;
+                OnPropertyChanged(nameof(SaleTransactionTimeStampDate));
+            }
+        }
+
+        TimeSpan saleTransactionTimeStampTimeSpan = DateTime.Now.TimeOfDay;
+        public TimeSpan SaleTransactionTimeStampTimeSpan
+        {
+            get => saleTransactionTimeStampTimeSpan;
+            set
+            {
+                saleTransactionTimeStampTimeSpan = value;
+                OnPropertyChanged(nameof(SaleTransactionTimeStampTimeSpan));
             }
         }
 
@@ -413,15 +432,19 @@ namespace FusionDemo.ViewModels
             }
         }
 
+        public DateTime MinimumTripDateTime { get; private set; }
+
+        public DateTime MaximumTripDateTime { get; private set; }
+        
         public DateTime PickUpDateTime
         {
             get
             {
-                return pickUpDate.Date.AddHours(pickUpHour).AddMinutes(pickUpMinute);
+                return pickUpDate.Date.AddHours(pickUpTimeSpan.Hours).AddMinutes(pickUpTimeSpan.Minutes);
             }
         }
 
-        DateTime pickUpDate;
+        DateTime pickUpDate = DateTime.Today;
         public DateTime PickUpDate
         {
             get => pickUpDate;
@@ -432,27 +455,16 @@ namespace FusionDemo.ViewModels
             }
         }
 
-        int pickUpHour;
-        public int PickUpHour
+        TimeSpan pickUpTimeSpan = DateTime.Now.TimeOfDay;
+        public TimeSpan PickUpTimeSpan
         {
-            get => pickUpHour;
+            get => pickUpTimeSpan;
             set
             {
-                pickUpHour = value;
-                OnPropertyChanged(nameof(PickUpHour));
+                pickUpTimeSpan = value;
+                OnPropertyChanged(nameof(PickUpTimeSpan));
             }
-        }
-
-        int pickUpMinute;
-        public int PickUpMinute
-        {
-            get => pickUpMinute;
-            set
-            {
-                pickUpMinute = value;
-                OnPropertyChanged(nameof(PickUpMinute));
-            }
-        }
+        }        
 
         string destinationStopName = "Beaumaris";
         public string DestinationStopName
@@ -491,12 +503,12 @@ namespace FusionDemo.ViewModels
         {
             get
             {
-                return destinationDate.Date.AddHours(destinationHour).AddMinutes(destinationMinute);
+                return destinationDate.Date.AddHours(destinationTimeSpan.Hours).AddMinutes(destinationTimeSpan.Minutes);
 
             }
         }
 
-        DateTime destinationDate;
+        DateTime destinationDate = DateTime.Today;
         public DateTime DestinationDate
         {
             get => destinationDate;
@@ -507,25 +519,14 @@ namespace FusionDemo.ViewModels
             }
         }
 
-        int destinationHour;
-        public int DestinationHour
+        TimeSpan destinationTimeSpan = DateTime.Now.TimeOfDay;
+        public TimeSpan DestinationTimeSpan
         {
-            get => destinationHour;
+            get => destinationTimeSpan;
             set
             {
-                destinationHour = value;
-                OnPropertyChanged(nameof(DestinationHour));
-            }
-        }
-
-        int destinationMinute;
-        public int DestinationMinute
-        {
-            get => destinationMinute;
-            set
-            {
-                destinationMinute = value;
-                OnPropertyChanged(nameof(DestinationMinute));
+                destinationTimeSpan = value;
+                OnPropertyChanged(nameof(DestinationTimeSpan));
             }
         }
 

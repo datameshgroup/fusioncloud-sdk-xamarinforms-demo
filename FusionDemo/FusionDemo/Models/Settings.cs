@@ -276,16 +276,11 @@ namespace FusionDemo.Models
 
         private PaymentRequest CreatePaymentRequest()
         {
-
             DateTime defaultDateTime = DateTime.Now;
 
-            DateTime pickUpDate = defaultDateTime.AddDays(-1);
-            int pickUpHour = defaultDateTime.Hour;
-            int pickUpMinute = defaultDateTime.Minute;
+            DateTime pickUpDate = defaultDateTime.AddMinutes(-45);            
 
-            DateTime destinationDate = defaultDateTime;
-            int destinationHour = defaultDateTime.Hour;
-            int destinationMinute = defaultDateTime.Minute;
+            DateTime destinationDate = defaultDateTime;            
 
             // Construct payment request
             PaymentRequest paymentRequest = new PaymentRequest()
@@ -297,7 +292,7 @@ namespace FusionDemo.Models
                     SaleTransactionID = new TransactionIdentification()
                     {
                         TransactionID = "0347d00e-5d13-4043-b92b-6bf32381ab16",
-                        TimeStamp = DateTime.UtcNow
+                        TimeStamp = defaultDateTime
                     },
                     SaleTerminalData = new SaleTerminalData(false)
                     {
@@ -324,7 +319,7 @@ namespace FusionDemo.Models
                                 StopName = "Richmond",
                                 Latitude = "-37.82274517047244",
                                 Longitude = "144.98394642094434",
-                                Timestamp = pickUpDate.Date.AddHours(pickUpHour).AddMinutes(pickUpMinute)
+                                Timestamp = pickUpDate
                             },
                             Destination = new Stop()
                             {
@@ -332,7 +327,7 @@ namespace FusionDemo.Models
                                 StopName = "Beaumaris",
                                 Latitude = "-37.988864997462048",
                                 Longitude = "145.04484379736329",
-                                Timestamp = destinationDate.Date.AddHours(destinationHour).AddMinutes(destinationMinute)
+                                Timestamp = destinationDate
                             }
                         }
                     }
