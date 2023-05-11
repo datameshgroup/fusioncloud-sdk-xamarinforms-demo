@@ -377,6 +377,7 @@ namespace FusionDemo.Models
                     "subtotal"
                 }
             },
+            /* - for NSW
             new SaleItem()
             {
                 ItemID = 1,
@@ -390,7 +391,7 @@ namespace FusionDemo.Models
                 {
                     "extra"
                 }
-            },
+            },*/
             new SaleItem()
             {
                 ItemID = 2,

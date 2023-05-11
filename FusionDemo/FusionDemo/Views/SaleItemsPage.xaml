@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FusionDemo.Views.SaleItemsPage"
+             xmlns:vm="clr-namespace:FusionDemo.ViewModels" 
+             xmlns:local="clr-namespace:FusionDemo.Util"
+             Title="{Binding Title}">
+
+    <ContentPage.BindingContext>
+        <vm:SaleItemsViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <Style x:Key="TitleLabel" TargetType="Label">
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="HorizontalTextAlignment" Value="Left" />
+        </Style>
+
+        <Style  x:Key="SubTitleLabel" TargetType="Label">
+            <Setter Property="Margin" Value="0,16,0,8" />
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="FontSize" Value="Large" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+            <Setter Property="HorizontalTextAlignment" Value="Left" />
+        </Style>
+
+
+        <Style TargetType="Label">
+            <Setter Property="TextColor" Value="#888888" />
+            <Setter Property="FontSize" Value="Medium" />
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+            <Setter Property="HorizontalTextAlignment" Value="Left" />
+        </Style>
+
+
+        <Style TargetType="Entry">
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="FontSize" Value="Medium"/>
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+            <Setter Property="HorizontalTextAlignment" Value="Left" />
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="0,10,0,0" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+            <Setter Property="FontSize" Value="Medium"/>
+        </Style>
+
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+
+        <Grid Padding="15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ScrollView Grid.Row="0" Padding="15,12,15,12">
+                <StackLayout>
+                    <Label Text="Add New Sale Item" Style="{StaticResource SubTitleLabel}"/>
+                    <CheckBox IsChecked="{Binding DisplayAddSaleItemFields}"/>
+
+                    <Label Text="Item ID:" IsVisible="{Binding AddSaleItemFieldsVisibility}"/>
+                    <Entry Text="{Binding ItemID}" IsVisible="{Binding AddSaleItemFieldsVisibility}" Keyboard="Numeric"/>
+
+                    <Label Text="Product Code:" IsVisible="{Binding AddSaleItemFieldsVisibility}"/>
+                    <Entry Text="{Binding ProductCode}" IsVisible="{Binding AddSaleItemFieldsVisibility}"/>
+
+                    <Label Text="Product Label:" IsVisible="{Binding AddSaleItemFieldsVisibility}"/>
+                    <Entry Text="{Binding ProductLabel}" IsVisible="{Binding AddSaleItemFieldsVisibility}"/>
+
+                    <Label Text="Unit Of Measure:" IsVisible="{Binding AddSaleItemFieldsVisibility}"/>
+                    <Picker ItemsSource="{Binding UnitOfMeasureList}" SelectedIndex="{Binding UnitOfMeasureSelectedIndex}" IsVisible="{Binding AddSaleItemFieldsVisibility}">
+                    </Picker>
+
+                    <Label Text="Unit Price:" IsVisible="{Binding AddSaleItemFieldsVisibility}"/>
+                    <Entry Text="{Binding UnitPrice}" IsVisible="{Binding AddSaleItemFieldsVisibility}" Keyboard="Numeric"/>
+
+                    <Label Text="Quantity:" IsVisible="{Binding AddSaleItemFieldsVisibility}"/>
+                    <Entry Text="{Binding Quantity}" IsVisible="{Binding AddSaleItemFieldsVisibility}" Keyboard="Numeric"/>
+
+                    <Label Text="Item Amount:" IsVisible="{Binding AddSaleItemFieldsVisibility}"/>
+                    <Entry Text="{Binding ItemAmount}" IsVisible="{Binding AddSaleItemFieldsVisibility}" Keyboard="Numeric"/>
+
+                    <Label Text="Tags:" IsVisible="{Binding AddSaleItemFieldsVisibility}"/>
+                    <Entry Text="{Binding Tags}" IsVisible="{Binding AddSaleItemFieldsVisibility}"/>
+
+                    <Button x:Name="Add" Text="Add Sale Item" Command="{Binding AddSaleItemCommand}" IsEnabled="{Binding IsAddSaleItemEnabled}" IsVisible="{Binding AddSaleItemFieldsVisibility}"></Button>
+
+                    <Label Text="Current Sale Items" Style="{StaticResource SubTitleLabel}"/>
+
+                    <Button x:Name="Delete" Text="Delete Selected Sale Item" Command="{Binding DeleteSaleItemCommand}" IsEnabled="{Binding IsDeleteSaleItemEnabled}"></Button>
+
+                    <ListView x:Name="SaleItemListView" ItemsSource="{Binding SaleItemsList}" IsVisible="{Binding SaleItemListVisibility}" HasUnevenRows="True" SeparatorVisibility="Default" SeparatorColor="#000000" SelectionMode="Single">
+                        <ListView.Behaviors>
+                            <local:SelectionChangedEventBehavior Command="{Binding SelectSaleItemCommand}" />
+                        </ListView.Behaviors>
+                        <ListView.Header>
+                            <StackLayout Orientation="Horizontal">
+                            </StackLayout>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Orientation="Vertical" Margin="10,5,0,5" Padding="0,3,0,0">
+                                        <Label Text="{Binding ItemID, StringFormat='Item ID = {0:N0}'}"></Label>
+                                        <Label Text="{Binding ProductCode, StringFormat='Product Code = {0}'}}"></Label>
+                                        <Label Text="{Binding ProductLabel, StringFormat='Product Label = {0}'}}"></Label>
+                                        <Label Text="{Binding UnitOfMeasure, StringFormat='Unit of Measure = {0}'}}"></Label>
+                                        <Label Text="{Binding UnitPrice, StringFormat='Unit Price = {0:N}'}}"></Label>
+                                        <Label Text="{Binding Quantity, StringFormat='Quantity = {0:N}'}}"></Label>
+                                        <Label Text="{Binding ItemAmount, StringFormat='Item Amount = {0:N}'}}"></Label>
+                                        <Label Text="{Binding AllTags, StringFormat='Tags = {0}'}}"></Label>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <Label Text="*No Sale Item set*" IsVisible="{Binding NoSaleItemTextVisibility}"/>
+
+                </StackLayout>
+            </ScrollView>
+            <Button Grid.Row="1" VerticalOptions="Center" Text="Save" Command="{Binding SaveCommand}"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

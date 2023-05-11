@@ -131,67 +131,6 @@
                     <DatePicker MinimumDate="{Binding MinimumTripDateTime}" MaximumDate="{Binding MaximumTripDateTime}" Format="D" Margin="30, 0, 0, 30" Date="{Binding DestinationDate}" />
                     <TimePicker Format="T" Margin="30, 0, 0, 30" Time="{Binding DestinationTimeSpan}" />
 
-                    <Label Text="Sale Items" Style="{StaticResource SubTitleLabel}"/>
-
-                    <Button x:Name="Delete" Text="Delete Existing Sale Item" Command="{Binding DeleteSaleItemCommand}" IsEnabled="{Binding IsDeleteSaleItemEnabled}"></Button>
-                    <Label Text="Current Sale Items:" />
-                    <ListView x:Name="SaleItemListView" ItemsSource="{Binding SaleItemsList}" IsVisible="{Binding SaleItemListVisibility}" HasUnevenRows="True" SeparatorVisibility="Default" SeparatorColor="#000000" SelectionMode="Single">
-                        <ListView.Behaviors>
-                            <local:SelectionChangedEventBehavior Command="{Binding SelectSaleItemCommand}" />
-                        </ListView.Behaviors>
-                        <ListView.Header>
-                            <StackLayout Orientation="Horizontal">
-                            </StackLayout>
-                        </ListView.Header>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <StackLayout Orientation="Vertical" Margin="10,5,0,5" Padding="0,3,0,0">
-                                        <Label Text="{Binding ItemID, StringFormat='Item ID = {0:N0}'}"></Label>
-                                        <Label Text="{Binding ProductCode, StringFormat='Product Code = {0:N}'}}"></Label>
-                                        <Label Text="{Binding ProductLabel,StringFormat='Product Label = {0:N}'}}"></Label>
-                                        <Label Text="{Binding UnitOfMeasure,StringFormat='Unit of Measure = {0:N}'}}"></Label>
-                                        <Label Text="{Binding UnitPrice, StringFormat='Unit Price = {0:N}'}}"></Label>
-                                        <Label Text="{Binding Quantity, StringFormat='Quantity = {0:N}'}}"></Label>
-                                        <Label Text="{Binding ItemAmount, StringFormat='Item Amount = {0:N}'}}"></Label>
-                                        <Label Text="{Binding AllTags, StringFormat='Tags = {0:N}'}}"></Label>
-                                    </StackLayout>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-
-                    <Label Text="*No Sale Item set*" IsVisible="{Binding NoSaleItemTextVisibility}"/>
-
-                    <Label Text="Add New Sale Item" />
-                    
-                    <Label Text="Item ID:" />
-                    <Entry Text="{Binding ItemID}"/>
-
-                    <Label Text="Product Code:" />
-                    <Entry Text="{Binding ProductCode}"/>
-
-                    <Label Text="Product Label:" />
-                    <Entry Text="{Binding ProductLabel}"/>
-
-                    <Label Text="Unit Of Measure:" />
-                    <Picker ItemsSource="{Binding UnitOfMeasureList}" SelectedIndex="{Binding UnitOfMeasureSelectedIndex}">
-                    </Picker>
-
-                    <Label Text="Unit Price:" />
-                    <Entry Text="{Binding UnitPrice}"/>
-
-                    <Label Text="Quantity:" />
-                    <Entry Text="{Binding Quantity}"/>
-
-                    <Label Text="Item Amount:" />
-                    <Entry Text="{Binding ItemAmount}"/>
-
-                    <Label Text="Tags:" />
-                    <Entry Text="{Binding Tags}"/>
-
-                    <Button x:Name="Add" Text="Add Sale Item" Command="{Binding AddSaleItemCommand}" IsEnabled="{Binding IsAddSaleItemEnabled}"></Button>
-
                 </StackLayout>
             </ScrollView>
             <Button Grid.Row="1" VerticalOptions="Center" Text="Save" Command="{Binding SaveCommand}"/>

@@ -25,23 +25,16 @@ namespace FusionDemo.ViewModels
             DoGetTotalsCommand = new Command(async () => await DoGetTotals());
             NavigateSettingsCommand = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(SettingsPage)}"));
             NavigateOtherFieldsCommand = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(OtherFieldsPage)}"));
+            NavigateSaleItemsCommand = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(SaleItemsPage)}"));
         }
 
         public ICommand NavigateSettingsCommand { get; }
         public ICommand NavigateOtherFieldsCommand { get; }
+
+        public ICommand NavigateSaleItemsCommand { get; }
         public ICommand DoPurchaseCommand { get; }
         public ICommand DoRefundCommand { get; }
         public ICommand DoGetTotalsCommand { get; }
-
-        private bool dialogDisplayOtherFieldsButton;
-        public bool DialogDisplayOtherFieldsButton
-        {
-            get => dialogDisplayOtherFieldsButton;
-            set
-            {
-                SetProperty(ref dialogDisplayOtherFieldsButton, value);
-            }
-        }
 
         private void UpdatePaymentRequest()
         {
@@ -107,11 +100,7 @@ namespace FusionDemo.ViewModels
             if (string.IsNullOrEmpty(s.SaleID) || string.IsNullOrEmpty(s.POIID) || string.IsNullOrEmpty(s.KEK))
             {
                 await Shell.Current.GoToAsync($"//{nameof(SettingsPage)}");
-            }
-            else
-            {
-                DialogDisplayOtherFieldsButton = Settings.DisplayOtherFields;
-            }
+            }            
         }
 
         #region Properties
@@ -123,7 +112,7 @@ namespace FusionDemo.ViewModels
             set { SetProperty(ref paymentType, value); }
         }
 
-        decimal requestedAmount = 38.1M;
+        decimal requestedAmount = 30.1M;
         public decimal RequestedAmount
         {
             get { return requestedAmount; }

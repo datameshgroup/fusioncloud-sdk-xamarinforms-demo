@@ -85,18 +85,20 @@
                 <Label Text="CashBack Amt:" />
                 <Entry Text="{Binding CashBackAmount}" Keyboard="Numeric"/>
 
-                <Button x:Name="OtherFieldsButton" Text="Other Fields" Command="{Binding NavigateOtherFieldsCommand}" IsVisible="{Binding DialogDisplayOtherFieldsButton}"/>
+                <Button x:Name="OtherFieldsButton" Text="Transit Fields" Command="{Binding NavigateOtherFieldsCommand}" />
 
-                <Label Text="Product Code:" />
+                <Button x:Name="SaleItemsButton" Text="Sale Items" Command="{Binding NavigateSaleItemsCommand}"/>
+
+                <Label Text="Extra Product Code:" />
                 <Entry Text="{Binding ProductCode}" Keyboard="Text"/>
 
                 <Button Text="Purchase" Command="{Binding DoPurchaseCommand}" />
                 <Button Text="Refund" Command="{Binding DoRefundCommand}" />
 
-                <BoxView x:Name="ReportsSeparator" Style="{StaticResource Separator}" IsVisible="{Binding DialogDisplayOtherFieldsButton}"/>
+                <BoxView x:Name="ReportsSeparator" Style="{StaticResource Separator}"/>
 
-                <Label Text="Reports:" IsVisible="{Binding DialogDisplayOtherFieldsButton}"/>
-                <Button Text="Get Totals" Command="{Binding DoGetTotalsCommand}" IsVisible="{Binding DialogDisplayOtherFieldsButton}"/>
+                <Label Text="Reports:"/>
+                <Button Text="Get Totals" Command="{Binding DoGetTotalsCommand}"/>
 
             </StackLayout>
         </ScrollView>

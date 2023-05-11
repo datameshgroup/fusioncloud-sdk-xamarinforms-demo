@@ -29,5 +29,8 @@
     <Compile Update="Views\OtherFieldsPage.xaml.cs">
       <DependentUpon>OtherFieldsPage.xaml</DependentUpon>
     </Compile>
-  </ItemGroup>
+    <Compile Update="Views\SaleItemsPage.xaml.cs">
+      <DependentUpon>Views\SaleItemsPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>  
 </Project>

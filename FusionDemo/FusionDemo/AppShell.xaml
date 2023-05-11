@@ -33,5 +33,6 @@
     <ShellContent Route="PaymentPage" ContentTemplate="{DataTemplate local:PaymentPage}" />
     <ShellContent Route="OtherFieldsPage" ContentTemplate="{DataTemplate local:OtherFieldsPage}" />
     <ShellContent Route="TransactionPage" ContentTemplate="{DataTemplate local:TransactionPage}" />
+    <ShellContent Route="SaleItemsPage" ContentTemplate="{DataTemplate local:SaleItemsPage}" />
 
 </Shell>
