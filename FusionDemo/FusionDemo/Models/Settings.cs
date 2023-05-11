@@ -249,8 +249,7 @@ namespace FusionDemo.Models
                                 SaleCapability.CashierStatus,
                                 SaleCapability.CashierError,
                                 SaleCapability.CashierInput,
-                                SaleCapability.CustomerAssistance,
-                                SaleCapability.PrinterReceipt
+                                SaleCapability.CustomerAssistance
                             }
                     }
                 }
