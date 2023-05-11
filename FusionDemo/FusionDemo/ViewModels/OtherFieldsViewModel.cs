@@ -14,6 +14,8 @@ using System.Numerics;
 using static System.Net.Mime.MediaTypeNames;
 using System.Transactions;
 using FusionDemo.Util;
+using FusionSaleItem = DataMeshGroup.Fusion.Model.SaleItem;
+using SaleItem = FusionDemo.Models.SaleItem;
 
 namespace FusionDemo.ViewModels
 {
@@ -75,13 +77,22 @@ namespace FusionDemo.ViewModels
             DestinationHour = transitData.Trip.Destination.Timestamp.Hour;
             DestinationMinute = transitData.Trip.Destination.Timestamp.Minute;
 
-            if (Settings.Payment.Request.PaymentTransaction.SaleItem == null)
+            SaleItemsList = new List<SaleItem>();
+            if (Settings.Payment.Request.PaymentTransaction.SaleItem != null)
             {
-                SaleItemsList = new List<SaleItem>();
-            }
-            else
-            {
-                SaleItemsList = Settings.Payment.Request.PaymentTransaction.SaleItem;
+                foreach (FusionSaleItem saleItem in Settings.Payment.Request.PaymentTransaction.SaleItem)
+                {
+                    SaleItemsList.Add(new SaleItem() {
+                        ItemID = saleItem.ItemID,
+                        ProductCode = saleItem.ProductCode,
+                        ProductLabel = saleItem.ProductLabel,
+                        UnitOfMeasure = saleItem.UnitOfMeasure,
+                        UnitPrice = saleItem.UnitPrice,
+                        Quantity = saleItem.Quantity,
+                        ItemAmount = saleItem.ItemAmount,
+                        Tags = saleItem.Tags
+                    });
+                }
             }
             IsSaleItemListVisible = (saleItemsList != null) && (saleItemsList.Count > 0);
         }

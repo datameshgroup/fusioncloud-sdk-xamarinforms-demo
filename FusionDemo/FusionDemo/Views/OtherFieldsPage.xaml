@@ -151,6 +151,7 @@
                                         <Label Text="{Binding UnitPrice, StringFormat='Unit Price = {0:N}'}}"></Label>
                                         <Label Text="{Binding Quantity, StringFormat='Quantity = {0:N}'}}"></Label>
                                         <Label Text="{Binding ItemAmount, StringFormat='Item Amount = {0:N}'}}"></Label>
+                                        <Label Text="{Binding AllTags, StringFormat='Tags = {0:N}'}}"></Label>
                                     </StackLayout>
                                 </ViewCell>
                             </DataTemplate>

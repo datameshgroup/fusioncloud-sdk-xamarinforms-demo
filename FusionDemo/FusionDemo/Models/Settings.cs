@@ -108,7 +108,7 @@ namespace FusionDemo.Models
                 {
                     return (string)value;
                 }
-                return "wss://cloudposintegration.io/nexotest";
+                return "wss://cloudposintegration.io/nexodev";
             }
             set
             {
