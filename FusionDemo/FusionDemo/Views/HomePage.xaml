@@ -89,7 +89,7 @@
 
                 <Button x:Name="SaleItemsButton" Text="Sale Items" Command="{Binding NavigateSaleItemsCommand}"/>
 
-                <Label Text="Extra Product Code:" />
+                <Label Text="Test Case Product Code:" />
                 <Entry Text="{Binding ProductCode}" Keyboard="Text"/>
 
                 <Button Text="Purchase" Command="{Binding DoPurchaseCommand}" />

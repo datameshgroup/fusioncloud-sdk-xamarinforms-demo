@@ -52,9 +52,13 @@ namespace FusionDemo.ViewModels
                 TipAmount = tipAmount,
                 CashBackAmount = cashBackAmount
             };
+            if (paymentRequest.PaymentTransaction.SaleItem != null)
+            {
+                paymentRequest.PaymentTransaction.SaleItem.Remove(paymentRequest.PaymentTransaction.SaleItem.Find(si => (si.AdditionalProductInfo == "DataMesh Test Case ID"))); //remove any previously added test case product code.
+            }
             if (!String.IsNullOrEmpty(ProductCode))
             {
-                paymentRequest.AddSaleItem(productCode: ProductCode, productLabel: ProductCode, itemAmount: 0);
+                paymentRequest.AddSaleItem(productCode: ProductCode, productLabel: ProductCode, itemAmount: 0, additionalProductInfo:"DataMesh Test Case ID");
             }
         }
 
