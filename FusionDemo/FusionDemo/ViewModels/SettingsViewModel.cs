@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace FusionDemo.ViewModels
@@ -115,6 +116,11 @@ namespace FusionDemo.ViewModels
                 Settings.KEK = value;
                 OnPropertyChanged(nameof(KEK));
             }
+        }
+
+        public string AppVersionNumber
+        {
+            get => AppInfo.Version.ToString();
         }
 
         #endregion
