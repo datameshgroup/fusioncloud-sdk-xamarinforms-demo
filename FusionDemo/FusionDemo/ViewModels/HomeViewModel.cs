@@ -116,7 +116,7 @@ namespace FusionDemo.ViewModels
             set { SetProperty(ref paymentType, value); }
         }
 
-        decimal requestedAmount = 30.1M;
+        decimal requestedAmount = 33.1M;
         public decimal RequestedAmount
         {
             get { return requestedAmount; }

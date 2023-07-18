@@ -405,6 +405,20 @@ namespace FusionDemo.Models
                 {
                     "extra"
                 }
+            },
+            new SaleItem()
+            {
+                ItemID = 51003,
+                ProductCode = "M5 South-West Mwy West, Parramatta Road, Windsor Road, Sunnyholt Road, Great Western High Way, Wester Distributor, Cahill Expressway, Easter Distributor, Airport Road, Anzac Parade",
+                ProductLabel = "M5 South-West Mwy West, Parramatta Road, Windsor Road, Sunnyholt Road, Great Western High Way, Wester Distributor, Cahill Expressway, Easter Distributor, Airport Road, Anzac Parade ",
+                UnitOfMeasure = UnitOfMeasure.Other,
+                UnitPrice = 3.0M,
+                Quantity = 1,
+                ItemAmount = 3.0M,
+                Tags = new List<string>()
+                {
+                    "extra"
+                }
             }
         };
 
