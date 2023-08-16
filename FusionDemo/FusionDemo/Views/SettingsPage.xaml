@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FusionDemo.Views.SettingsPage"
-             xmlns:vm="clr-namespace:FusionDemo.ViewModels"
+             xmlns:vm="clr-namespace:FusionDemo.ViewModels" xmlns:behaviors="http://xamarin.com/schemas/2020/toolkit"
              Title="{Binding Title}"
              >
 
@@ -76,13 +76,16 @@
 
                     <Label Text="POS Software Settings" Style="{StaticResource SubTitleLabel}"/>
 
-                    <Label Text="ProviderIdentification:" />
+                    <Label Text="Provider Identification:" />
                     <Entry Text="{Binding ProviderIdentification}"/>
 
-                    <Label Text="ApplicationName:" />
+                    <Label Text="Application Name:" />
                     <Entry Text="{Binding ApplicationName}"/>
 
-                    <Label Text="CertificationCode:" />
+                    <Label Text="POS Software Version:" />
+                    <Entry Text="{Binding POSSoftwareVersion}"/>
+
+                    <Label Text="Certification Code:" />
                     <Entry Text="{Binding CertificationCode}"/>
 
                     <Label Text="Testing" Style="{StaticResource SubTitleLabel}"/>
@@ -92,9 +95,24 @@
 
                     <Label Text="Custom URL:" />
                     <Entry Text="{Binding CustomNexoURL}"/>
+                    
+                    <Grid VerticalOptions="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+                        <Label VerticalTextAlignment="Center" Grid.Row="0" Grid.Column="0" Text="Load Prod Settings:" StyleClass="lbl-fieldform" />
+                        <Switch Grid.Row="0" Grid.Column="1" VerticalOptions="Center" IsToggled="{Binding LoadDefaultProductionSetting, Mode=OneWay}">
+                            <Switch.Behaviors>
+                                <behaviors:EventToCommandBehavior   
+                             EventName="Toggled"    
+                             Command="{Binding LoadDefaultProductionSettingCommand}"/>
+                            </Switch.Behaviors>
+                        </Switch>
+                    </Grid>
 
                     <Label Text="Version Number" Style="{StaticResource SubTitleLabel}"/>
                     <Label Text="{Binding AppVersionNumber}"/>
+
                 </StackLayout>
             </ScrollView>
 

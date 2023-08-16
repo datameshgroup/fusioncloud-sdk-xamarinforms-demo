@@ -16,6 +16,8 @@ namespace FusionDemo.Models
 
         public static Settings Instance { get { return lazy.Value; } }
 
+        private static DefaultSettings defaultSettings = new DefaultDevelopmentSettings();
+
         private Settings()
         {
             //EnablePaymentDialogOnSuccess = true;
@@ -34,6 +36,23 @@ namespace FusionDemo.Models
             GetTotals = new GetTotals();
         }
 
+        bool defaultLoadDefaultProductionSetting = false;
+        public bool LoadDefaultProductionSetting
+        {
+            get
+            {
+                if (Application.Current.Properties.TryGetValue(nameof(LoadDefaultProductionSetting), out object value))
+                {
+                    return (bool)value;
+                }
+                return defaultLoadDefaultProductionSetting;
+            }
+            set
+            {
+                Application.Current.Properties[nameof(LoadDefaultProductionSetting)] = value;
+            }
+        }
+
         public bool UseTestEnvironment
         {
             get
@@ -42,7 +61,7 @@ namespace FusionDemo.Models
                 {
                     return (bool)value;
                 }
-                return true;
+                return defaultSettings.UseTestEnvironment;
             }
             set
             {
@@ -58,7 +77,7 @@ namespace FusionDemo.Models
                 {
                     return (string)value;
                 }
-                return "Company A";
+                return defaultSettings.ProviderIdentification;
             }
             set
             {
@@ -74,7 +93,7 @@ namespace FusionDemo.Models
                 {
                     return (string)value;
                 }
-                return "POS Retail";
+                return defaultSettings.ApplicationName;
             }
             set
             {
@@ -82,7 +101,21 @@ namespace FusionDemo.Models
             }
         }
 
-        public string SoftwareVersion => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() ?? "1.0.0";
+        public string POSSoftwareVersion
+        {
+            get
+            {
+                if (Application.Current.Properties.TryGetValue(nameof(POSSoftwareVersion), out object value))
+                {
+                    return (string)value;
+                }
+                return defaultSettings.SoftwareVersion;
+            }
+            set
+            {
+                Application.Current.Properties[nameof(POSSoftwareVersion)] = value;
+            }
+        }
 
         public string CertificationCode
         {
@@ -92,7 +125,7 @@ namespace FusionDemo.Models
                 {
                     return (string)value;
                 }
-                return "98cf9dfc-0db7-4a92-8b8cb66d4d2d7169";
+                return defaultSettings.CertificationCode;
             }
             set
             {
@@ -108,13 +141,13 @@ namespace FusionDemo.Models
                 {
                     return (string)value;
                 }
-                return "wss://cloudposintegration.io/nexodev";
+                return defaultSettings.CustomNexoURL;
             }
             set
             {
                 Application.Current.Properties[nameof(CustomNexoURL)] = value;
             }
-        }
+        }        
 
         public string SaleID
         {
@@ -156,7 +189,7 @@ namespace FusionDemo.Models
                 {
                     return (string)value;
                 }
-                return "44DACB2A22A4A752ADC1BBFFE6CEFB589451E0FFD83F8B21";
+                return defaultSettings.KEK;
             }
             set
             {
@@ -239,7 +272,7 @@ namespace FusionDemo.Models
                     {
                         ProviderIdentification = ProviderIdentification,
                         ApplicationName = ApplicationName,
-                        SoftwareVersion = SoftwareVersion,
+                        SoftwareVersion = POSSoftwareVersion,
                         CertificationCode = CertificationCode
                     },
                     SaleTerminalData = new SaleTerminalData()

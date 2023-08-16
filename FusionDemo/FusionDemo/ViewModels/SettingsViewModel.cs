@@ -13,10 +13,13 @@ namespace FusionDemo.ViewModels
     {
         public Command SaveCommand { get; }
 
+        public Command LoadDefaultProductionSettingCommand { get; }
+
         public SettingsViewModel()
         {
             Title = "Settings";
             SaveCommand = new Command(OnSaveClicked);
+            LoadDefaultProductionSettingCommand = new Command(OnLoadDefaultProductionSettingToggled);
         }
 
         private async void OnSaveClicked(object obj)
@@ -28,12 +31,52 @@ namespace FusionDemo.ViewModels
             await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
         }
 
+        private void OnLoadDefaultProductionSettingToggled(object obj)
+        {
+            ToggledEventArgs arg = (obj as ToggledEventArgs);
+            if (arg != null)
+            {                
+                OverrideSettings(arg.Value);
+            }            
+        }
+
+        private void OverrideSettings(bool isProduction)
+        {
+            LoadDefaultProductionSetting = isProduction;
+            SaleID = "";
+            POIID = "";
+            DefaultSettings defaultSettings;
+            if(isProduction){
+                defaultSettings = new DefaultProductionSettings();                
+            }
+            else {
+                defaultSettings = new DefaultDevelopmentSettings();
+            }
+            KEK = defaultSettings.KEK;
+            ProviderIdentification = defaultSettings.ProviderIdentification;
+            ApplicationName = defaultSettings.ApplicationName;
+            POSSoftwareVersion = defaultSettings.SoftwareVersion;
+            CertificationCode = defaultSettings.CertificationCode;
+            CustomNexoURL = defaultSettings.CustomNexoURL;
+            UseTestEnvironment = defaultSettings.UseTestEnvironment;
+        }
+
         public override Task OnNavigatedTo()
         {
             return Task.CompletedTask;
         }
 
         #region Properties
+
+        public bool LoadDefaultProductionSetting
+        {
+            get => Settings.LoadDefaultProductionSetting;
+            set
+            {
+                Settings.LoadDefaultProductionSetting = value;
+                OnPropertyChanged(nameof(LoadDefaultProductionSetting));
+            }
+        }
 
         public bool UseTestEnvironment
         {
@@ -65,6 +108,16 @@ namespace FusionDemo.ViewModels
             }
         }
 
+        public string POSSoftwareVersion
+        {
+            get => Settings.POSSoftwareVersion;
+            set
+            {
+                Settings.POSSoftwareVersion = value;
+                OnPropertyChanged(nameof(POSSoftwareVersion));
+            }
+        }
+
         public string CertificationCode
         {
             get => Settings.CertificationCode;
@@ -74,7 +127,6 @@ namespace FusionDemo.ViewModels
                 OnPropertyChanged(nameof(CertificationCode));
             }
         }
-
 
         public string CustomNexoURL
         {
